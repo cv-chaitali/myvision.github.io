@@ -1,0 +1,101 @@
+works:
+
+- title: "Development Aid & International Migration to Italy: Does Aid Reduce Irregular Flows?"
+  pdflink: "https://doi.org/10.1111/twec.13017"
+  book: "The World Economy, Forthcoming"
+  coauthors: "Gabriele Restelli"
+  links:
+    - url: "https://www.economist.com/middle-east-and-africa/2020/08/29/the-idea-that-aid-and-development-slow-migration-is-wrong"
+      text: "Coverage in The Economist"
+    - url: "http://hummedia.manchester.ac.uk/institutes/gdi/research/Restelli-Migration.pdf"
+      text: "Policy Brief (2 pages)"
+  abstract: >
+      In recent years, donors have claimed to tackle the root causes of migration from low‐income countries using aid. While others have studied the effects of aid on regular migration, we test whether aid deters irregular migration to Italy using two innovative dependent variables: asylum applications and apprehensions at border. For asylum applications, the largest significant effect size implies we should expect one extra application for an additional $162,000 in bilateral aid. For border crossings, the only significant effect implies the marginal cost in bilateral aid is $1.8 million per deterred migrant. The conclusion that effect sizes are small is robust to different types of aid, measures of migration and various controls. We find robust evidence that irregular migration flows are significantly affected by conflict, poverty, and the pre‐existing stocks from that country. Comparing our results to the existing aid‐migration literature, we find similar effect sizes. The cost per deterred (regular) migrant is in the range $4‐7 million. Statistically significant estimates for the effect of aid on regular migration are only found for sub‐samples or specific specifications. In short, aid does not deter regular or irregular migration, so should be used for other purposes.
+
+
+- title: "Payment by results in international development: Evidence from the first decade"
+  pdflink: "https://onlinelibrary.wiley.com/doi/epdf/10.1111/dpr.12405"
+  book: "Development Policy Review, 37(6):719-734, 2019"
+  links:
+    - url: "https://github.com/paulclist/datasets/raw/master/Clist%2018%20PbR%20preprint.pdf"
+      text: "PDF: Free Version"
+  abstract: >
+    Payment by results is a relatively new way of giving development aid, where a recipient's performance against pre‐agreed measures determines the amount of aid they receive. It has proved popular, with most bilateral aid donors having at least experimented with the mechanism and the variety of measures stretching from individual health workers being paid for each procedure, to national governments being paid for students’ test scores.
+    Given a lack of robust and systematic investigations of the effects of PbR, the paper uses the leading theoretical framework to synthesise the available evidence, asking whether payment by results works as intended. This allows a test of the framework and the evidence against each other.
+    I synthesise the evidence from eight projects fully or partially funded by DFID, the recognised world leader on PbR. This represents the best evidence currently available, and is critically analysed using the leading theoretical framework that breaks each agreement into its constituent parts.
+    I find no evidence that PbR leads to fundamentally more innovation or autonomy, with the overall range of success and failure broadly similar to other aid projects. This may partly be due to the current use of Payment by Results, with no readily identifiable examples of projects that truly meet the idealised PbR designs. Advocates of PbR may conclude the idea is yet to be tested. I argue PbR does not deal with the fundamental constraints that donors face, and so it is unsurprising that PbR is subject to the normal pressures that affect all aid spending.
+    Donors would be sensible to limit themselves to either ‘small PbR’ (where the costs of PbR are minimised) or genuine ‘big PbR’ (where projects seek to maximise PBR's benefits). The current evidence shows that projects outside these two categories are worse than traditional forms of aid. Evidence for ‘small PbR’ is mixed, while there is no evidence for ‘big PbR’ as it has yet to be tried.
+
+
+- title: "Multilingualism and Public Goods Provision: An Experiment in Two Languages in Uganda"
+  pdflink: "https://doi.org/10.1016/j.jdeveco.2017.08.003"
+  book: "Journal of Development Economics, 129:47-57, 2017"
+  coauthors: "Arjan Verschoor"
+  links:
+    - url: "https://github.com/paulclist/datasets/raw/master/ClistVerschoor17replication.dta"
+      text: "Replication Data"
+    - url: "https://github.com/paulclist/datasets/raw/master/ClistVerschoor17replication.do"
+      text: "Replication Code"
+    - url: "https://github.com/paulclist/datasets/raw/master/Clist%20Verschoor%2017%20script.pdf"
+      text: "Experimental Script"
+    - url: "https://github.com/paulclist/datasets/raw/master/Clist%20Verschoor%2017.pdf"
+      text: "PDF: free version"
+  abstract: >
+    Multilingualism is the global norm, but the implications of this for cooperation and public goods provision have not been studied before. We test whether the language in which a public goods game is played affects subjects' contributions amongst a bilingual population in eastern Uganda, finding that subjects contribute 30% more on average in the national language. This treatment effect is solely driven by those most associated with the local Gisu identity, for whom contributions are 43-74% higher in the national language. This difference fits  with Gisu culture's high value on self-reliance and low value on reciprocity and cooperation, due to a violent history of intense competition over land. Language is thus shown to affect cooperation, but only for individuals who both have different latent norms and for whom language activates these norms.
+
+- title: "Payment by Results In Development Aid: All that Glitters is Not Gold"
+  pdflink: "https://doi.org/10.1093/wbro/lkw005"
+  book: "World Bank Research Observer, 31(2): 290-319, 2016"
+  abstract: >
+    Payment by Results (PbR), where aid is disbursed conditional upon progress against a pre-agreed measure, is becoming increasingly important for various donors. There are great hopes that this innovative instrument will focus attention on ultimate outcomes and lead to greater aid effectiveness by passing the delivery risk on to recipients. However, there is very little related empirical evidence, and previous attempts to place it on a sure conceptual footing are rare and incomplete. This article collates and synthesises relevant insights from a wide range of subfields in economics, providing a rich framework with which to analyze Payment by Results. I argue that the domain in which it dominates more traditional forms is relatively small and if it is used too broadly, many of the results it claims are likely to be misleading. The likelihood of illusory gains stems from the difficulty of using a single indicator to simultaneously measure and reward performance: 'once a measure becomes a target, it ceases to be a good measure.’ This does not mean PbR should not be used (indeed it will be optimal in some settings), but it does mean that claims of success should be treated with caution.
+
+
+- title: "Foreign Aid and Domestic Taxation: Multiple Sources, One Conclusion"
+  pdflink: "http://onlinelibrary.wiley.com/doi/10.1111/dpr.12154/epdf"
+  book: "Development Policy Review, 34(3): 365-383, 2016"
+  links:
+    - url: "https://github.com/paulclist/datasets/blob/master/dataset%20aid%20and%20tax%202016%20dpr.dta"
+      text: "Replication Data"
+    - url: "https://github.com/paulclist/datasets/blob/master/replication%20CLIST%20aid%20and%20tax.do"
+      text: "Replication Code"
+  abstract: >
+    There are influential studies that argue that foreign aid displaces domestic tax revenue when it is given in the form of grants. These claims are based on data that are deeply problematic: several different sources are amalgamated into one dataset, with no apparent checks on compatibility. In this article, a variety of econometric strategies are used to overcome these issues of data quality. The resulting weight of evidence points to a modest but positive effect on the part of foreign aid generally on domestic tax revenue. Fears over a negative effect for aid grants appear unwarranted, and are accounted for by the inappropriate use of data or endogeneity issues.
+
+- title: "Do Performance Measures of Donors’ Aid Allocation Underperform?"
+  book: "The World Economy, 38(5): 805–824, 2015"
+  pdflink: "http://onlinelibrary.wiley.com/doi/10.1111/twec.12165/epdf"
+  links:
+    - url: "https://github.com/paulclist/datasets/blob/master/aid%20index%20WE.zip"
+      text: "Replication Data"
+  abstract: >
+    Indices of donor performance abound. Their recent popularity has occurred within the context of pessimism over aid's impact and optimism over the effect of changes in donor behaviour. Rankings of donor allocative performance aim to change donor behaviour, either through direct pressure on governments or indirectly through public engagement. The indices themselves rely on descriptive measures, and typically claim methodological superiority over positive alternatives due to their simplicity. However, there are two problems. First, measures do not seem robust to simple variations in methodology. Second, correlation amongst competing indices is low, leading to a host of contradictory judgements. This offers neither clear technical guidance nor consistent political pressure. The advantages and disadvantages of the approach are discussed, building upon the more general critique of aggregate indices. I suggest a graphical solution that embraces the advantages of the descriptive approach (including ease of public communication) while avoiding some of its major weaknesses (which typically stem from aggregation).
+
+
+- title: "Selectivity on Aid Modality: Determinants of Budget Support from Multilateral Donors"
+  pdflink: "http://dx.doi.org/10.1007/s11558-011-9137-2"
+  book: "The Review of International Organizations, 7(3): 267-284, 2012"
+  coauthors: "Oliver Morrissey & Alessia Isopi"
+  links:
+    - url: "https://github.com/paulclist/datasets/blob/master/modality%20RoIO.zip"
+      text: "Replication Data"
+  abstract: >
+    Since the late 1990s a selection on policy approach to aid was advocated such that more aid should be allocated to countries with good policies, but there is little evidence that this has occurred. This paper argues that donors may exercise selectivity over the aid modality. Specifically, multilateral donors will cede more recipient control over aid by granting more budget support to those recipients with better expenditure systems and spending preferences (towards the poor) aligned with the donor. We test this for European Commission and World Bank budget support over 1997–2009 and find some support. Both donors have given budget support to almost half of the countries they give aid, and it is usually a significant share of their aid. The principal determinants of receiving budget support are having a poverty reduction strategy in place, which can be considered a good indicator of aligned preferences, and indicators of government efficiency. These variables did not, however, influence the amount of budget support given. Multilateral donors have been more likely to give budget support to countries with aligned spending preferences and better quality systems, even if they have not reallocated the total aid envelope in that way.
+
+
+- title: "Aid and tax revenue: Signs of a positive effect since the 1980s"
+  pdflink: "http://dx.doi.org/10.1002/jid.1656"
+  book: "Journal of International Development 23(2): 165-180, 2011"
+  coauthors: "Oliver Morrissey"
+  abstract: >
+    This paper addresses the effect of aid loans and grants on tax effort using data for 82 developing countries over 1970–2005. We find no robust evidence for a negative effect of aid (grants or loans) on the tax/GDP ratio, other than a contemporaneous correlation, but find some evidence that the effect of grants on tax revenue is positive (if significant) since the mid 1980s and that grants tend to increase tax revenue over the medium term. For poor aid recipients, grants are to be preferred to loans because they create no debt and have no adverse fiscal effects.
+
+- title: "25 Years of Aid Allocation Practice: Whither Selectivity?"
+  pdflink: "http://dx.doi.org/10.1016/j.worlddev.2011.04.031"
+  book: "World Development, 39(10): 1724–1734, 2011"
+  links:
+    - url: "https://github.com/paulclist/datasets/blob/master/aidallocationClist11WD.dta"
+      text: "Replication Data"
+    - url: "https://github.com/paulclist/datasets/blob/master/Clist2011AidAllocation.do"
+      text: "Replication Code"
+  abstract: >
+    The 4P framework (Poverty, Population, Policy, and Proximity) is introduced as a way of understanding a donor's aid allocation. We use the two-part model and examine the period 1982-2006. The results indicate that recent conclusions of increasing selectivity are misplaced for the seven major donors analyzed, who together represent the majority of development aid. Indeed, the effect of each of the commonly mentioned time-trends (selectivity, the end of the Cold War, and the commencement of the Global War on Terror) is much smaller than the role of donor heterogeneity, which appears sizeable and entrenched.

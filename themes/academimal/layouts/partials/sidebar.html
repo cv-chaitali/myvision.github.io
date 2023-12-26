@@ -1,0 +1,29 @@
+<p class="contactinfo"><a href="{{ "#bio" | relURL }}">Bio</a></p>
+{{ with .Site.Data.publications }}
+<p class="contactinfo"><a href="{{ "#publications" | relURL }}">Publications</a></p>
+{{ end }}
+{{ with .Site.Data.working_papers }}
+<p class="contactinfo"><a href="{{ "#workingpapers" | relURL }}">Working Papers</a></p>
+{{ end }}
+{{ with .Site.Data.work_in_progress }}
+<p class="contactinfo"><a href="{{ "#workinprogress" | relURL }}">Work in Progress</a></p>
+{{ end }}
+{{ with .GetPage "/sections/policy.md" }}
+<p class="contactinfo"><a href="{{ "#policy" | relURL }}">Policy</a></p>
+{{ end }}
+{{ with .GetPage "/sections/asorted.md" }}
+<p class="contactinfo"><a href="{{ "#assorted" | relURL }}">Assorted</a></p>
+{{ end }}
+
+
+
+<p class="sidebar">   <a class="sidebar" href="https://scholar.google.com/{{ .Site.Params.Scholar }}" target="_blank">
+  {{ "" }}
+	<img src="{{ "/icons/scholar.png" | relURL }}" class="octicons">
+</a>  <a class="sidebar" href="mailto:{{ .Site.Params.Email }}" target="_blank">
+  {{ "" }}<img src="{{ "/icons/email.png" | relURL }}" class="octicons">
+</a> <a class="sidebar" href="https://twitter.com/{{ .Site.Params.Twitter }}" target="_blank">
+  {{ "" }}	<img src="{{ "/icons/twitter.png" | relURL }}" class="octicons">
+</a><a class="sidebar" href="https://github.com/paulclist" target="_blank">
+  {{ "" }}	<img src="{{ "/icons/github.png" | relURL }}" class="octicons">
+</a></p>

@@ -1,0 +1,16 @@
+relativeURLs = true
+title = "Paul Clist"
+theme = "academimal"
+sectionPagesMenu = "main"
+defaultContentLanguage = "en"
+ignorefiles = [ "hugo_travis_ci", ".travis.yml" ]
+googleAnalytics = "UA-90755326-1"
+
+
+[params]
+    shortbio = "Associate Professor of Development Economics, University of East Anglia"
+    logo = "portrait.jpg"
+    Twitter = "paulclist"
+    Orcid = "0000-0001-9338-9446"
+    Email = "paul.clist@uea.ac.uk"
+    Scholar = "citations?user=QnRgQi4AAAAJ&hl=en"

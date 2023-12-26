@@ -1,0 +1,22 @@
+works:
+
+- title: "Why Do We Lie? Distinguishing Between Competing Lying Theories"
+  pdflink: "https://ueaeco.github.io/working-papers/papers/cbess/UEA-CBESS-19-03.pdf"
+  book: "Early CBESS WP"
+  coauthors: "Ying-Yi Hong"
+  note: "Revise & Resubmit"
+  links:
+    - url: "https://doi.org/10.7910/DVN/OXOGY3"
+      text: "Replication Data"
+    - url: "https://www.socialscienceregistry.org/trials/3547"
+      text: "Pre-Ananlysis Plan"
+
+- title: "Bilinguals in the Lab: (Why) Does Randomising Language Affect Cooperation?"
+  pdflink: "https://custom.cvent.com/4E741122FD8B4A1B97E483EC8BB51CC4/files/clisthill19csae.pdf"
+  book: "Early CSAE Conference WP"
+  coauthors: "Josh Hill"
+  links:
+    - url: "https://www.socialscienceregistry.org/trials/4616"
+      text: "Pre-Ananlysis Plan"
+    - url: "https://twitter.com/paulclist/status/1240226806323712004"
+      text: "Twitter Presentation (CSAE)"
