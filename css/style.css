@@ -383,6 +383,21 @@ header ul a {
   padding-top: 6px;
   height: 34px; }
 
+
+/* style.css */
+
+.image-container {
+  max-width: 100%;
+  height: auto;
+  text-align: center;
+}
+
+#laptopImage {
+  max-width: 100%;
+  height: auto;
+  /* Ensures the image scales down if it's too wide for the container */
+}
+
 header ul a:hover, header ul a:focus {
   color: #675C5C;
   font-weight: bold; }
