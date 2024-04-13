@@ -31,7 +31,3 @@ document.querySelector('.icon-dropdown .icon').addEventListener('click', functio
     var dropdown = document.querySelector('.icon-dropdown .dropdown-content');
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 });
-
-
-
-
