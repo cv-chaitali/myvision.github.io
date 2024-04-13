@@ -28,7 +28,7 @@
 
 body {
   background-color: #fff;
-  padding: 50px;
+  padding: 30px;
   font: 14px/1.5 "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   color: #727272;
@@ -36,7 +36,7 @@ body {
 }
 
 .icon {
-  margin-right: 15px;
+  margin-right: 20px;
 }
 
 h1,
@@ -55,7 +55,7 @@ ol,
 table,
 pre,
 dl {
-  margin: 0 0 20px;
+  margin: 0 0 10px;
 }
 
 p.contactinfo {
@@ -129,7 +129,7 @@ a:hover small {
 }
 
 .wrapper {
-  width: 1060px;
+  width: 1110px;
   margin: 0 auto;
 }
 
@@ -145,11 +145,13 @@ img {
 }
 
 header {
-  width: 270px;
+  width: 400px;
   float: left;
   position: fixed;
   -webkit-font-smoothing: subpixel-antialiased;
 }
+
+
 
 header ul {
   list-style: none;
@@ -315,3 +317,238 @@ footer {
     color: #444;
   }
 }
+
+
+#grad-journals {
+  background-color: #f0f8ff; /* Soft blue background */
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  color: #2a5d84;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.journal-entries h3 {
+  color: #205493;
+  margin: 10px 0 0;
+}
+
+.journal-entries p, .journal-entries em {
+  margin-left: 20px;
+  font-size: 16px;
+}
+
+.journal-entries a {
+  text-decoration: none;
+  color: #0a4c95;
+}
+
+.journal-entries a:hover {
+  text-decoration: underline;
+}
+
+#researchupdates
+.research-updates {
+  background-color: #f8f9fa; /* Light grey background for the whole section */
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.update-entry {
+  background-color: #ffffff; /* White background for each entry */
+  border-left: 5px solid #a994d2; /* Indigo highlight for a pop of color */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.update-entry h3 {
+  font-size: 16px;
+  color: #34495e; /* Dark blue for headings */
+  margin: 5px 0; /* Reduced margin for compactness */
+}
+
+.status {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.submitted {
+  color: #10ac84; /* Soft green for submitted status */
+}
+
+.review {
+  color: #f39c12; /* Amber for under review status */
+}
+
+.co-authors {
+  font-size: 14px;
+  color: #7f8fa0; /* Slate for co-authors */
+  margin-bottom: 5px; /* Keeping everything tight */
+}
+
+.detail {
+  font-size: 14px;
+  color: #576574; /* Slate for additional details */
+  margin: 2px 0; /* Minimal margin for a compact layout */
+}
+
+.highlight {
+  color: #2e86de; /* Blue for highlights */
+  font-weight: bold;
+}
+.update-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+
+
+#preprints
+.research-preprints {
+  background-color: #f8f9fa; /* Light grey background for the whole section */
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.preprints {
+  background-color: #ffffff; /* White background for each entry */
+  border-left: 5px solid #7caeda; /* Indigo highlight for a pop of color */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.preprints:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.projetcs {
+  background-color: #ffffff; /* White background for each entry */
+  border-left: 5px solid #d4e6f2; /* Indigo highlight for a pop of color */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.projetcs:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+
+/* funded */
+
+.funding {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.funded {
+  margin-top: 20px;
+}
+
+.section-title {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+}
+
+.project-item {
+  background-color: #ffffff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.project-item h3 {
+  color: #2a2f45;
+  font-size: 18px;
+}
+
+.project-item p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.name {
+  color: #1a0dab;
+}
+
+.funded:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+.icons-row {
+  display: flex; Establishes a flex container
+  /* align-items: center; Vertically centers the flex items */
+  /* white-space: nowrap; Prevents wrapping of content to a new line */
+}
+
+.icon-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.icon-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.icon-dropdown .octicons {
+  display: block;
+  width: 29px; /* adjust as per your icon size */
+  height: auto;
+}
+
+
+
+.centered-container {
+  display: flex;        /* Establishes a flex container */
+  justify-content: center; /* Centers content along the horizontal axis */
+  align-items: center;  /* Centers content along the vertical axis (optional) */
+  height: 100%;         /* Takes the full height of the container (adjust as needed) */
+}
+
+
+
+
+

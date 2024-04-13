@@ -25,3 +25,13 @@
         document.addEventListener("touchend", gestureEnd, false);
     }
 })(document);
+
+document.querySelector('.icon-dropdown .icon').addEventListener('click', function(event){
+    event.preventDefault();  // Prevents going to the GitHub page directly
+    var dropdown = document.querySelector('.icon-dropdown .dropdown-content');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+
+
+
