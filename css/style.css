@@ -12,6 +12,7 @@
     url("../fonts/Noto-Sans-regular/Noto-Sans-regular.svg#NotoSans")
       format("svg");
 }
+
 @font-face {
   font-family: "Noto Sans";
   font-weight: 700;
@@ -39,6 +40,11 @@ body {
   margin-right: 20px;
 }
 
+.icon-dropdown {
+  display: inline-block;
+  cursor: pointer;
+}
+
 h1,
 h2,
 h3,
@@ -58,28 +64,69 @@ dl {
   margin: 0 0 10px;
 }
 
-p.contactinfo {
-  margin: 0 0 10px;
+.icons-row {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: auto;
 }
 
-p.lastcontactinfo {
-  margin: 0 0 20px;
+.icon,
+.icon-dropdown {
+  margin: 0em 1em;
 }
 
-p img.inline-logo {
-  display: inline-flex;
-  align-self: center;
-  position: relative;
-  height: 0.8em;
-  bottom: -0.04em;
-}
-
-p img.octicons {
-  display: inline-flex;
-  align-self: center;
-  position: relative;
+.octicons {
   height: 1.8em;
-  padding-left: 5px;
+  width: 1.9em;
+}
+
+.octicons:hover {
+  filter: contrast(50%);
+}
+
+.octicon-totoro:hover {
+  filter: brightness(70%);
+}
+
+.octicon-totoro {
+  height: 2.6em;
+  width: 1.9em;
+  transform: translateY(-6px);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  transform: translateY(-4px);
+}
+
+.icon-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 8px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.contactinfo {
+  margin-bottom: 1em;
+}
+
+.links {
+  display: grid;
+  width: 80%;
+  grid-template-columns: 12em 12em;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 p span.hideit {
@@ -145,13 +192,11 @@ img {
 }
 
 header {
-  width: 400px;
+  width: 350px;
   float: left;
   position: fixed;
   -webkit-font-smoothing: subpixel-antialiased;
 }
-
-
 
 header ul {
   list-style: none;
@@ -189,10 +234,13 @@ header ul a {
 }
 
 #laptopImage {
-  max-width: 100%;
+  width: 45%;
   height: auto;
+  margin-right: auto;
+  margin-left: auto;
   border-radius: 50%;
-  padding-bottom: 8px;
+  padding-bottom: 12px;
+  filter: brightness(120%);
   /* Ensures the image scales down if it's too wide for the container */
 }
 
@@ -295,6 +343,10 @@ footer {
   header p.view {
     position: static;
   }
+
+  .links {
+    grid-template-columns: 15em 12em;
+  }
 }
 @media print, screen and (max-width: 480px) {
   body {
@@ -318,7 +370,6 @@ footer {
   }
 }
 
-
 #grad-journals {
   background-color: #f0f8ff; /* Soft blue background */
   border-radius: 8px;
@@ -339,7 +390,8 @@ footer {
   margin: 10px 0 0;
 }
 
-.journal-entries p, .journal-entries em {
+.journal-entries p,
+.journal-entries em {
   margin-left: 20px;
   font-size: 16px;
 }
@@ -353,12 +405,11 @@ footer {
   text-decoration: underline;
 }
 
-#researchupdates
-.research-updates {
+#researchupdates .research-updates {
   background-color: #f8f9fa; /* Light grey background for the whole section */
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .update-entry {
@@ -406,18 +457,15 @@ footer {
 }
 .update-entry:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0px 1px 8.5px 0.5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
-
-
-#preprints
-.research-preprints {
+#preprints .research-preprints {
   background-color: #f8f9fa; /* Light grey background for the whole section */
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 8.5px 0.5px rgba(0, 0, 0, 0.1);
 }
 
 .preprints {
@@ -429,7 +477,7 @@ footer {
 }
 .preprints:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 8.5px 0.5px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -442,10 +490,9 @@ footer {
 }
 .projetcs:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 8.5px 0.5px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
-
 
 /* funded */
 
@@ -453,7 +500,7 @@ footer {
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .funded {
@@ -471,7 +518,7 @@ footer {
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .project-item h3 {
@@ -493,57 +540,9 @@ footer {
   text-decoration: underline;
 }
 
-
-
-
-
-
-
-
-.icons-row {
-  display: flex; Establishes a flex container
-  /* align-items: center; Vertically centers the flex items */
-  /* white-space: nowrap; Prevents wrapping of content to a new line */
-}
-
-.icon-dropdown {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-.icon-dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.icon-dropdown .octicons {
-  display: block;
-  width: 29px; /* adjust as per your icon size */
-  height: auto;
-}
-
-
-
 .centered-container {
-  display: flex;        /* Establishes a flex container */
+  display: flex; /* Establishes a flex container */
   justify-content: center; /* Centers content along the horizontal axis */
-  align-items: center;  /* Centers content along the vertical axis (optional) */
-  height: 100%;         /* Takes the full height of the container (adjust as needed) */
+  align-items: center; /* Centers content along the vertical axis (optional) */
+  height: 100%; /* Takes the full height of the container (adjust as needed) */
 }
