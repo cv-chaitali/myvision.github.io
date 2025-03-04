@@ -1,0 +1,379 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222;
+  --highlight-color: #6D28D9;
+  --font: 'IBM Plex Mono', monospace;
+  --update-color: #f8f8f800;
+  --paper-color: #f8f8f800;
+  --project-color: #f8f8f800;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1e1e1e;
+  --text-color: #f0f0f0;
+  --highlight-color: #8B5CF6;
+  /* Dark mode overrides for section backgrounds */
+  --update-color: #444;
+  --paper-color: #444;
+  --project-color: #444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font);
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  padding: 20px;
+  transition: background 0.3s, color 0.3s;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 10px 0;
+}
+
+.nav-links {
+  flex: 1;                  /* Allow nav-links to take up available space */
+  display: flex;
+  justify-content: center;  /* Center the links inside the nav-links container */
+  gap: 19px;
+}
+
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 18px;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between logo and text */
+  justify-content: center; /* Center alignment */
+  margin-bottom: 10px;
+}
+
+.profile-logo {
+  width: 60px; /* Adjust size */
+  height: 60px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.profile-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-color); /* Matches theme */
+  border: none;
+  margin: 5px 0;
+}
+
+.profile-tagline {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--highlight-color);
+  margin-top: 5px;
+}
+
+.profile {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: left;
+}
+
+.profile img {
+  width: 50px;
+  height: 50px;
+}
+
+.profile h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.profile p {
+  font-size: 16px;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: var(--highlight-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.reading-list {
+  margin-top: 30px;
+}
+
+.reading-list h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.reading-list ul {
+  list-style-type: none;
+}
+
+.reading-list li {
+  margin: 5px 0;
+}
+
+.reading-list a {
+  color: var(--highlight-color);
+  text-decoration: none;
+}
+
+.image-section {
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.image-section img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.ongoing {
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.ongoing h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.ongoing ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.ongoing li {
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ongoing li::before {
+  content: "⚙️";
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .profile h1 {
+    font-size: 28px;
+  }
+}
+
+/* Updates, Papers, Projects Sections */
+.updates, .papers, .projects {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.updates:hover, .papers:hover, .projects:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.updates { background-color: var(--update-color); }
+.papers { background-color: var(--paper-color); }
+.projects { background-color: var(--project-color); }
+
+.updates h2, .papers h2, .projects h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--text-color);
+  padding-bottom: 5px;
+}
+
+.updates ul, .papers ul, .projects ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Common styling for item blocks */
+.update-item, .paper-item, .project-item {
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.85);
+  transition: transform 0.2s ease-in-out;
+}
+
+.update-item:hover, .paper-item:hover, .project-item:hover {
+  transform: translateX(5px);
+}
+
+.update-item .date {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.paper-item .year {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.paper-item .title {
+  color: var(--highlight-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.project-item:hover {
+  transform: translateX(5px);
+}
+
+.project-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.project-content {
+  flex: 1;
+}
+
+.project-content h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.project-content p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.project-link {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: var(--highlight-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.project-link:hover {
+  background-color: #5B21B6;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  justify-content: center; /* Center align */
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.social-icon {
+  width: 30px; /* Slightly larger for better visibility */
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out, opacity 0.3s;
+}
+
+.social-icon img {
+  width: 100%;
+  height: auto;
+  filter: invert(10%) sepia(100%) saturate(0%) brightness(0%) contrast(100%);
+  transition: filter 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Adapt social icons for dark/light themes */
+[data-theme="dark"] .social-icon img {
+  filter: invert(100%) sepia(0%) saturate(0%) brightness(200%) contrast(100%);
+}
+
+/* Hover effect */
+.social-icon:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+/* Default link styling */
+p a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Color-specific link styling */
+p a[href*="dgist.ac.kr"] { color: #6D28D9; } /* Purple for DGIST */
+p a[href*="yu.ac.kr"] { color: #D97706; } /* Amber for Yeungnam University */
+p a[href*="kangwon.ac.kr"] { color: #059669; } /* Green for Kangwon University */
+p a[href*="x-up-lab.github.io"] { color: #EF4444; } /* Red for Xiatian Zhu’s Lab */
+p a[href*="wixsite.com"] { color: #2563EB; } /* Blue for Professor Kim Sungho */
+p a[href*="drdo.gov.in"],
+p a[href*="drl.drdo.gov.in"] { color: #DC2626; } /* Deep Red for DRDO */
+
+/* Hover effect for links */
+p a:hover {
+  filter: brightness(1.2);
+}
+
+/* Dark mode overrides for item backgrounds to ensure visibility */
+[data-theme="dark"] .updates .update-item {
+  background-color: #444; /* Contrast against var(--update-color) */
+}
+
+[data-theme="dark"] .papers .paper-item {
+  background-color: #555; /* Contrast against var(--paper-color) */
+}
+
+[data-theme="dark"] .projects .project-item {
+  background-color: #666; /* Contrast against var(--project-color) */
+}

@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .gallery {
+      max-width: 900px;
+      margin: 30px auto;
+      text-align: center;
+    }
+
+    .gallery h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    /* Use CSS columns for a masonry layout */
+    .gallery-grid {
+      column-count: 3;
+      column-gap: 15px;
+      padding: 20px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      display: block;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out forwards;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      user-select: none; /* Prevents text selection on images */
+      -webkit-user-drag: none; /* Prevents dragging on WebKit browsers */
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Optional overlay to deter saving */
+    .gallery-grid img::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="cv.html">CV</a>
+      <a href="https://aizora.github.io/">Blogs</a>
+      <a href="gallery.html">Gallery</a>
+    </div>
+    <div class="theme-toggle" id="themeToggle">☀️</div>
+  </nav>
+
+  <section class="gallery">
+    <h2>Photography Gallery</h2>
+    <p>A collection of my favorite photographs.</p>
+    <div class="gallery-grid">
+      <img src="1.jpg" alt="Photo 1">
+      <img src="2.jpg" alt="Photo 2">
+      <img src="3.jpg" alt="Photo 3">
+      <img src="4.jpg" alt="Photo 4">
+      <img src="5.jpg" alt="Photo 5">
+      <img src="6.jpg" alt="Photo 6">
+      <img src="7.jpg" alt="Photo 7">
+      <img src="8.jpg" alt="Photo 8">
+      <img src="9.jpg" alt="Photo 9">
+      <img src="10.jpg" alt="Photo 10">
+    </div>
+  </section>
+
+  <footer>© 2025 Chaitali</footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      document.body.dataset.theme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+      this.textContent = document.body.dataset.theme === 'light' ? '☀️' : '🌙';
+    });
+
+    // Disable right-click on images
+    document.querySelectorAll('.gallery-grid img').forEach(img => {
+      img.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        alert('Downloading images is not allowed.');
+      });
+
+      // Disable drag-and-drop
+      img.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+      });
+
+      // Disable saving via keyboard shortcuts (optional, less effective)
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's')) {
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
