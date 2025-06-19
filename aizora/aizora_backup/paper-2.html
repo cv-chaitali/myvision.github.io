@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIzora - Paper 1 Summary</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header>
+    <h1>
+      Paper 2: SelectIT – Selective Instruction Tuning for Large Language Models
+      via Uncertainty-Aware Self-Reflection
+    </h1>
+  </header>
+
+  <nav>
+    <a href="paper-summary.html">Back to Paper Summaries</a>
+    <a href="index.html">Home</a>
+    <a href="blog.html">Blog</a>
+  </nav>
+
+  <main style="max-width: 800px; margin: 0 auto;">
+    <h2>Paper Summary</h2>
+    <p><strong>Note:</strong> Images and equations are from the original paper. But I did redraw them for ppt animation effects</p>
+
+    <h3>Paper Reference</h3>
+    <pre><code class="language-python">
+      @misc{liu2025selectitselectiveinstructiontuning,
+        title={SelectIT: Selective Instruction Tuning for LLMs via Uncertainty-Aware Self-Reflection}, 
+        author={Liangxin Liu and Xuebo Liu and Derek F. Wong and Dongfang Li and Ziyi Wang and Baotian Hu and Min Zhang},
+        year={2025},
+        eprint={2402.16705},
+        archivePrefix={arXiv},
+        primaryClass={cs.CL},
+        url={https://arxiv.org/abs/2402.16705}, 
+  }
+    </code></pre>
+
+    <h3>Abstract</h3>
+    <p>
+      This paper proposes <strong>SelectIT</strong>, a framework that ranks and
+      selects the top 20% of instruction–response pairs by leveraging the base
+      LLM’s own uncertainty signals—no external evaluators or retraining needed.
+      Experiments on LLaMA-2-13B show consistent gains over vanilla Alpaca tuning
+      across reasoning, coding, and multilingual benchmarks.
+    </p>
+
+    <h3>This Summary Includes</h3>
+    <ol>
+      <li><a href="#how">How they solved it</a></li>
+      <li><a href="#results">Key results</a></li>
+    </ol>
+
+    <h3 id="how">How they solved it</h3>
+    <p>A three-stage self-reflection pipeline selects the highest-quality examples:</p>
+
+    <h4>1. Token-Level Reflection</h4>
+    <figure>
+      <img src="figures/1.gif" alt="Token-Level Reflection Process" style="max-width: 100%; height: auto;">
+      <figcaption>Figure: Token-Level Reflection Process</figcaption>
+    </figure>
+    <p>Pick the most probable score token:</p>
+    <p class="math">
+      \( 
+        S^{\mathrm{base}} = \arg\max_{k\in\{1,\dots,K\}} P'_k,
+        \quad
+        P'_k = \frac{P_k}{\sum_{j=1}^K P_j}
+      \)
+      <em>Isn’t \(S^{\mathrm{base}}\) enough?</em>
+    </p>
+    <p>
+      Since probabilities can be very close, we multiply by an uncertainty term:
+    </p>
+    <p class="math">
+      \(
+        S_{\mathrm{token}}
+        = S^{\mathrm{base}}
+        \times
+        \underbrace{
+          \frac{1}{K-1}\sum_{i=1}^K |P'_i - P'_{S^{\mathrm{base}}}|
+        }_{\text{Uncertainty}}
+      \)
+    </p>
+
+    <h4>2. Sentence-Level Reflection</h4>
+    <figure>
+      <img src="figures/2.gif" alt="sentence model -Level Reflection Process" style="max-width: 100%; height: auto;">
+      <figcaption>Figure: Sentence and Model -Level Reflection Process</figcaption>
+    </figure>
+    <p>
+      Average multiple token scores (from varied rating prompts) and penalize
+      high variance:
+    </p>
+    <p class="math">
+      \(
+        S^{\mathrm{sent}}
+        = \frac{
+            \frac{1}{K}\sum_{i=1}^K S^{\mathrm{token}}_{i}
+          }{
+            1 + \alpha \times 
+            \underbrace{\mathrm{Std}\{S^{\mathrm{token}}_{i}\}_{i=1}^K}_{\text{Uncertainty}}
+          }
+      \)
+      <span class="arrow">→ w/ prompt phrasing.</span>
+    </p>
+
+    <h4>3. Model-Level Reflection</h4>
+    <p>
+      Combine all sentence-level scores into a global ranking:
+    </p>
+    <p class="math">
+      \(
+        \mathrm{Quality} \propto S^{\mathrm{model}}
+        = \sum_{i=1}^{N}\Bigl(
+            \tfrac{\theta_i}{\sum_{j=1}^{N}\theta_j}
+            \times
+            S^{\mathrm{sent}}_{i}
+          \Bigr)
+      \)
+      <span class="arrow">→ w/ prompt phrasing.</span>
+    </p>
+
+    <h3 id="results">Key Results</h3>
+    <p>
+      SelectIT outperforms vanilla Alpaca tuning and other selection baselines,
+      with strong gains on reasoning (BBH, GSM), coding (HumanEval), and
+      multilingual (TyDiQA) tasks.
+    </p>
+    <img src="figures/paper_2_result_table.png" alt="Results" style="max-width: 100%; height: auto;">
+  </main>
+</body>
+</html>
