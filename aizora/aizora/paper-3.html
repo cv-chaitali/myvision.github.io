@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Identifying Functionally Important Features with End-to-End Sparse Dictionary Learning</title>
+
+  <!-- Highlight.js for code blocks -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <!-- MathJax for equations -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header,
+    nav {
+      width: 100%;
+      text-align: center;
+      background: #f8f8f8;
+    }
+
+    header {
+      padding: 1rem;
+    }
+
+    nav {
+      padding: 0.5rem;
+      background: #eee;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      text-align: left;   /* ← left-align main text */
+    }
+
+    /* keep code/pre left-aligned */
+    .content code,
+    .content pre,
+    .content table {
+      text-align: left;
+    }
+
+    /* custom underline for links */
+    .content a {
+      color: #6390d4;
+      text-decoration: none;
+      border-bottom: 1px dashed #6390d4;
+      padding-bottom: 2px;
+      transition: border-color .2s ease;
+    }
+    .content a:hover {
+      border-bottom-style: solid;
+      border-bottom-color: #068b80;
+    }
+
+    /* hide sections you're not using */
+    .blog-section,
+    .blog-post,
+    .paper-summary-section {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Identifying Functionally Important Features with End-to-End Sparse Dictionary Learning</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="blog.html">Back to Blog</a>
+    <a href="paper-summary.html">Paper Summaries</a>
+  </nav>
+
+  <main class="content">
+    <h2>E2E SAE</h2>
+    <p>
+      Previous works on Sparse Autoencoder have shown its amazing interpretability of neural networks,
+      but current SAEs focus on minimizing the Mean Squared Reconstruction Error (MSRE), which assumes
+      activations are tied directly to performance. For large models, however, many features are
+      redundant or indirectly related, so MSRE ends up optimizing irrelevant features.
+    </p>
+    <p>
+      The key question: <strong>How can we select functionally important features—the ones truly
+      responsible for the network's behavior?</strong>
+    </p>
+    <p>
+      To answer this, the authors propose training methods that still use a sparsity penalty on the
+      activations but replace pure reconstruction error with a KL‐divergence between the original
+      logits and the logits obtained when passing SAE‐reconstructed activations back through the
+      network.
+    </p>
+
+    <h2>🗒️ Contribution &amp; Findings</h2>
+    <ul>
+      <li>Introduces a novel training objective minimizing KL divergence between original model
+        outputs and SAE‐reconstructed outputs.</li>
+      <li>Ensures learned features are tied directly to the model's functional behavior.</li>
+      <li>Shows E2E SAEs explain more network performance with fewer total and per‐sample features.</li>
+      <li>Bridges the gap between interpretability and performance explanation in neural networks.</li>
+    </ul>
+
+    <h2>Formulations</h2>
+
+    <h3>☁ Transformer Part</h3>
+    <p>Considering a decoder‐only Transformer (e.g. GPT2):</p>
+    <div style="text-align:center; font-size:1.2em; margin:1em 0;">
+      \[
+        a^{(0)}(x) = x,
+        \quad
+        a^{(l)}(x) = f^{(l)}\bigl(a^{(l-1)}(x)\bigr)\ \text{for}\ l=1,\dots,L-1,
+        \quad
+        y = \mathrm{softmax}\bigl(f^{(L)}(a^{(L-1)}(x))\bigr).
+      \]
+    </div>
+
+    <h3>☁ Encoder &amp; SAE Part</h3>
+    <p>After extracting each layer's activation:</p>
+    <div style="text-align:center; font-size:1.2em; margin:1em 0;">
+      \[
+        \mathrm{Enc}\bigl(a^{(l)}(x)\bigr)
+          = \mathrm{ReLU}\bigl(W_e\,a^{(l)}(x) + b_e\bigr),
+        \quad
+        \mathrm{SAE}\bigl(a^{(l)}(x)\bigr)
+          = D^\top\,\mathrm{Enc}\bigl(a^{(l)}(x)\bigr) + b_d.
+      \]
+    </div>
+
+    <h2>Training</h2>
+
+    <h3>☁ Method 1: Baseline with \(L_{\mathrm{local}}\)</h3>
+    <p>Train SAE<sub>local</sub> by minimizing:</p>
+    <div style="text-align:center; font-size:1.2em; margin:1em 0;">
+      \[
+        L_{\mathrm{local}}
+        = L_{\mathrm{reconstruction}} + \phi\,L_{\mathrm{sparsity}}
+        = \|a^{(l)}(x) - \mathrm{SAE}_{\mathrm{local}}(a^{(l)}(x))\|_2^2
+          + \phi\,\|\mathrm{Enc}(a^{(l)}(x))\|_1.
+      \]
+    </div>
+
+    <h3>☁ Method 2: E2E SAE with \(L_{\mathrm{e2e}}\)</h3>
+    <p>Feed reconstructed activation through the remaining layers and compare logits:</p>
+    <div style="text-align:center; font-size:1.2em; margin:1em 0;">
+      \[
+        \begin{aligned}
+        \hat a^{(l)}(x) &= \mathrm{SAE}_{\mathrm{e2e}}(a^{(l)}(x)),\\
+        \hat a^{(k)}(x) &= f^{(k)}\bigl(\hat a^{(l)}(x)\bigr)\quad (k = l,\dots,L-1),\\
+        \hat y &= \mathrm{softmax}\bigl(f^{(L)}(\hat a^{(L-1)}(x))\bigr).
+        \end{aligned}
+      \]
+    </div>
+    <p>Then minimize KL divergence \(D_{\mathrm{KL}}(y\|\hat y)\).</p>
+
+    <h3>☁ Method 3: E2E SAE with \(L_{\mathrm{e2e+downstream}}\)</h3>
+    <p>Adds a downstream reconstruction penalty on all later layers:</p>
+    <div style="text-align:center; font-size:1.2em; margin:1em 0;">
+      \[
+        L_{\mathrm{e2e+downstream}}
+          = L_{\mathrm{KL}} + \phi\,\|\mathrm{Enc}(a^{(l)}(x))\|_1
+          + \frac{\beta_l}{L - l}\sum_{k=l+1}^{L-1}
+            \bigl\|\hat a^{(k)}(x) - a^{(k)}(x)\bigr\|_2^2.
+      \]
+    </div>
+
+
+    <h2>Findings</h2>
+    <p><strong>Finding 1:</strong> E2E and E2E+downstream require far fewer features to achieve comparable cross‐entropy loss (Pareto efficiency).</p>
+    <p><strong>Finding 2:</strong> In later layers, E2E+downstream converges to a similar trade‐off as local SAE but with higher efficiency—highlighting the interpretability‐accuracy balance.</p>
+    <p><strong>Finding 3:</strong> Cosine‐similarity analysis shows bimodal clustering for E2E+downstream, indicating it captures both functional and dataset‐specific variability.</p>
+
+    <div class="cta">
+      Reference:
+      <a href="https://arxiv.org/abs/2405.12241" target="_blank">
+        Braun, Dan, et al. "Identifying Functionally Important Features with End-to-End Sparse Dictionary Learning." arXiv:2405.12241 (2024).
+      </a>
+    </div>
+  </main>
+  <footer style="text-align: center; padding: 20px 0;">
+    <p>Made by @aizora</p>
+  </footer>
+</body>
+</html>

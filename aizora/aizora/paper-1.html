@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIzora - Paper 1 Summary</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Paper 1: Self-Distillation Bridges Distribution Gap in Language Model Fine-Tuning</h1>
+  </header>
+  <nav>
+    <a href="paper-summary.html">Back to Paper Summaries</a>
+    <a href="index.html">Home</a>
+    <a href="blog.html">Blog</a>
+  </nav>
+  <main style="max-width: 800px; margin: 0 auto;">
+    <h2>Paper Summary</h2>
+    <p><strong>Note:</strong> Images and equations are from the original paper.</p>
+    <p>Paper reference:</p>
+    <pre><code class="language-python">
+@article{yang2024self,
+title={Self-distillation bridges distribution gap in language model fine-tuning},
+author={Yang, Zhaorui and Pang, Tianyu and Feng, Haozhe and Wang, Han and Chen, Wei and Zhu, Minfeng and Liu, Qian},
+journal={arXiv preprint arXiv:2402.13669},
+year={2024}
+}
+    </code></pre>
+    <p><strong>Abstract</strong>: In this paper the authors assume that the performance gap in fine-tuned models is caused by a distribution mismatch between the LLM and the task dataset.</p>
+    <p>This summary includes:</p>
+    <ol>
+      <li><a href="#how">How did they solve this?</a></li>
+      <li><a href="#results">Paper Results</a></li>
+    </ol>
+    <h3 id="how">How did they solve this?</h3>
+    <p>The image below shows how the distilled data is created in the paper:</p>
+    <img src="figures/paper_1_method.png" alt="Method" style="max-width: 100%; height: auto;">
+    <p>Then, consider the following expression:</p>
+    <p>
+      \[
+      \tilde{y} \sim f_{\theta}(y \mid c^{t}, x^{t}, y^{t}).
+      \]
+    </p>
+    <p>Here, \(f_{\theta}\) is a seed language model (LM) parameterized by \(\theta\), while \(c^{t}, x^{t}, y^{t}\) are the context, instruction, and output. Using the seed model, they regenerate (or rephrase) the output \(y^{t}\) to obtain \(\tilde{y}\), matching the LM's distribution.</p>
+    <p>The following equation shows how quality is maintained. If \(\tilde{y}\) is similar to \(y^{t}\), then \(\tilde{y}\) is kept; otherwise, \(y^{t}\) is used. In this case, \(\tilde{y}'\) is the final (distilled) output.</p>
+    <p>
+      \[
+      \tilde{y}' = 
+      \begin{cases} 
+      \tilde{y} & \text{if } \text{Extract}(\tilde{y}) = y^{t}, \\
+      y^{t} & \text{otherwise}.
+      \end{cases}
+      \]
+    </p>
+    <p>Finally, the loss function for fine-tuning is defined as:</p>
+    <p>
+      \[
+      L_{\text{SDFT}}(\theta) = -\log f_{\theta}(\tilde{y}' \mid c^{t}, x^{t})
+      \]
+    </p>
+    <h3 id="results">Paper Results</h3>
+    <p>The table below shows that the proposed method improves fine-tuning quality compared to the vanilla approach:</p>
+    <img src="figures/paper_1_result_table.png" alt="Results" style="max-width: 100%; height: auto;">
+  </main>
+  <footer style="text-align: center; padding: 20px 0;">
+    <p>Made by @aizora</p>
+  </footer>
+</body>
+</html>
