@@ -47,7 +47,7 @@ year={2024}
       \tilde{y} \sim f_{\theta}(y \mid c^{t}, x^{t}, y^{t}).
       \]
     </p>
-    <p>Here, \(f_{\theta}\) is a seed language model (LM) parameterized by \(\theta\), while \(c^{t}, x^{t}, y^{t}\) are the context, instruction, and output. Using the seed model, they regenerate (or rephrase) the output \(y^{t}\) to obtain \(\tilde{y}\), matching the LM’s distribution.</p>
+    <p>Here, \(f_{\theta}\) is a seed language model (LM) parameterized by \(\theta\), while \(c^{t}, x^{t}, y^{t}\) are the context, instruction, and output. Using the seed model, they regenerate (or rephrase) the output \(y^{t}\) to obtain \(\tilde{y}\), matching the LM's distribution.</p>
     <p>The following equation shows how quality is maintained. If \(\tilde{y}\) is similar to \(y^{t}\), then \(\tilde{y}\) is kept; otherwise, \(y^{t}\) is used. In this case, \(\tilde{y}'\) is the final (distilled) output.</p>
     <p>
       \[
@@ -68,5 +68,8 @@ year={2024}
     <p>The table below shows that the proposed method improves fine-tuning quality compared to the vanilla approach:</p>
     <img src="figures/paper_1_result_table.png" alt="Results" style="max-width: 100%; height: auto;">
   </main>
+  <footer style="text-align: center; padding: 20px 0;">
+    <p>Made by @aizora</p>
+  </footer>
 </body>
 </html>

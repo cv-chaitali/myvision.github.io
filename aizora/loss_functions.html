@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIzora - Loss Functions</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Loss Functions</h1>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="blog.html">Back to Blog</a>
+    <a href="paper-summary.html">Paper Summaries</a>
+  </nav>
+
+  <main style="max-width: 800px; margin: 0 auto;">
+    <h2>Loss Functions</h2>
+    <p><strong>Note:</strong> If you think I should correct something, let me know 😊.</p>
+
+    <!-- ───────────────────────────── TOC ───────────────────────────── -->
+    <p>This blog includes:</p>
+    <ol>
+      <li><a href="#what-is-loss-function">What is a Loss Function</a></li>
+      <li><a href="#when-use-loss-function">When do we use Loss Function</a></li>
+      <li><a href="#common-loss-functions">Common Loss Functions (Regression)</a></li>
+      <li><a href="#mae">Mean Absolute Error (MAE)</a></li>
+      <li><a href="#mse">Mean Squared Error (MSE)</a></li>
+      <li><a href="#rmse">Root Mean Squared Error (RMSE)</a></li>
+      <li><a href="#huber-loss">Huber Loss</a></li>
+      <li><a href="#log-cosh-loss">Log-Cosh Loss</a></li>
+      <li><a href="#classification-losses">Classification Losses</a></li>
+      <li><a href="#reconstruction-losses">Reconstruction / Perceptual Losses</a></li>
+    </ol>
+
+    <img src="figures/b4i1.png" alt="Loss Functions Intro" style="max-width:100%;">
+
+    <!-- What is a Loss Function -->
+    <h3 id="what-is-loss-function">What is a Loss Function?</h3>
+    <p>A <em>loss function</em> (or <em>cost function</em>) can be regarded as a score card that tells us how far the model's prediction is from the ground truth. We train models by minimizing this loss, so a lower value indicates better predictions.</p>
+
+    <!-- When do we use Loss Function -->
+    <h3 id="when-use-loss-function">When do we use Loss Function?</h3>
+    <ul>
+      <li>Input goes into the model → Model produces a prediction (say \(\hat{y}\)) and we have the actual value \(y\).</li>
+      <li>The loss function compares \(\hat{y}\) with \(y\).</li>
+      <li>The model updates its parameters via an optimizer to reduce this loss on the next iteration.</li>
+    </ul>
+
+    <p>
+      \[
+        L(y, \hat{y})
+      \]
+    </p>
+    <p>The goal of any machine‑learning model is to minimize \(L\).</p>
+
+    <!-- Common Loss Functions overview -->
+    <h3 id="common-loss-functions">Some Common Loss Functions in Regression Tasks</h3>
+
+    <!-- MAE -->
+    <h4 id="mae">1. Mean Absolute Error (MAE)</h4>
+    <p>
+      \[
+        L_{\text{MAE}} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+      \]
+    </p>
+    <p>\(L_{\text{MAE}}\) measures the average <strong>absolute</strong> difference between predictions and actual values &mdash; it cares only about the magnitude, not the sign.</p>
+
+<pre><code class="language-python">import numpy as np
+
+def mae_loss(y_true, y_pred):
+    return np.mean(np.abs(y_true - y_pred))
+</code></pre>
+
+    <!-- MSE -->
+    <h4 id="mse">2. Mean Squared Error (MSE)</h4>
+    <p>
+      \[
+        L_{\text{MSE}} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+      \]
+    </p>
+    <p>Squaring the error magnifies larger mistakes, making MSE sensitive to outliers and well‑suited for gradient‑based optimization.</p>
+
+<pre><code class="language-python">def mse_loss(y_true, y_pred):
+    return np.mean((y_true - y_pred) ** 2)
+</code></pre>
+
+    <!-- RMSE -->
+    <h4 id="rmse">3. Root Mean Squared Error (RMSE)</h4>
+    <p>
+      \[
+        L_{\text{RMSE}} = \sqrt{L_{\text{MSE}}} = \sqrt{ \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 }
+      \]
+    </p>
+    <p>Taking the square root brings the metric back to the original scale of the target variable.</p>
+
+<pre><code class="language-python">def rmse_loss(y_true, y_pred):
+    return np.sqrt(mse_loss(y_true, y_pred))
+</code></pre>
+
+    <!-- Huber Loss -->
+    <h4 id="huber-loss">4. Huber Loss</h4>
+    <p>The Huber loss blends <strong>MAE</strong> and <strong>MSE</strong>: it is <em>quadratic</em> for small errors (fast convergence) and <em>linear</em> for large errors (robust to outliers).</p>
+
+    <p>
+      \[
+        L_{\text{Huber}}(e) =
+        \begin{cases}
+          \frac{1}{2} e^2, & |e| \le \delta \\
+          \delta \left( |e| - \frac{1}{2} \delta \right), & |e| > \delta
+        \end{cases}
+      \]
+    </p>
+
+    <p>At \(e = \delta\), both branches meet smoothly:</p>
+    <p>
+      \[
+        L_{\text{Huber}}(\delta) = \frac{1}{2}\,\delta^2
+      \]
+    </p>
+
+    <p>Gradient:</p>
+    <p>
+      \[
+        \frac{\partial L_{\text{Huber}}}{\partial \hat{y}} =
+        \begin{cases}
+          -(y-\hat{y}) = -e, & |e| \le \delta \\
+          -\delta\,\operatorname{sign}(e), & |e| > \delta
+        \end{cases}
+      \]
+    </p>
+
+    <p>Second derivative:</p>
+    <p>
+      \[
+        \frac{\partial^2 L_{\text{Huber}}}{\partial \hat{y}^2} =
+        \begin{cases}
+          1, & |e| \le \delta \\
+          0, & |e| > \delta
+        \end{cases}
+      \]
+    </p>
+
+    <img src="figures/b4i2.gif" alt="Huber Loss animation" style="max-width:100%;">
+
+<pre><code class="language-python">def huber(y_true, y_pred, delta=1.0):
+    e = y_true - y_pred
+    abs_e = np.abs(e)
+    quadratic = 0.5 * e**2
+    linear = delta * (abs_e - 0.5 * delta)
+    return np.mean(np.where(abs_e <= delta, quadratic, linear))
+</code></pre>
+
+    <!-- Log‑Cosh Loss -->
+    <h4 id="log-cosh-loss">5. Log‑Cosh Loss</h4>
+    <p>With \(e = y - \hat y\), define</p>
+    <p style="text-align:center">\[L_{\text{LogCosh}}(e)=\log\bigl(\cosh(e)\bigr)\]</p>
+
+    <h5>Series expansion (small errors)</h5>
+    <p style="text-align:center">\[\log(\cosh e)=\tfrac{e^2}{2}-\tfrac{e^4}{12}+\mathcal O(e^6)\]</p>
+    <p>≈ MSE when \(|e|\) is small.</p>
+
+    <h5>Full gradient derivation</h5>
+    <p>
+      \[\frac{\partial L_{\text{LogCosh}}}{\partial \hat y}=\frac{d}{de}\log(\cosh e)\cdot\frac{\partial e}{\partial \hat y}\]</p>
+    <p>\[\frac{\partial e}{\partial \hat y}=-1\]</p>
+    <p>
+      \[\frac{d}{de}\log(\cosh e)=\frac{1}{\cosh e}\cdot\frac{d}{de}\cosh e\]
+      \[\frac{d}{de}\cosh e=\sinh e\]
+      \[\therefore \frac{d}{de}\log(\cosh e)=\frac{\sinh e}{\cosh e}=\tanh e\]
+    </p>
+    <p style="text-align:center">
+      \[\boxed{\displaystyle\frac{\partial L_{\text{LogCosh}}}{\partial \hat y}=-\tanh(e)=-\tanh(y-\hat y)}\]
+    </p>
+
+    <p>Second derivative:</p>
+    <p>
+      \[
+        \frac{\partial^{2} L_{\text{LogCosh}}}{\partial \hat{y}^{2}} = 1 - \tanh^{2}(e) = \operatorname{sech}^2(e)
+      \]
+    </p>
+
+<pre><code class="language-python">def log_cosh(y_true, y_pred):
+    e = y_true - y_pred
+    return np.mean(np.log(np.cosh(e)))
+</code></pre>
+
+    <img src="figures/b4i3.gif" alt="Log‑Cosh Loss animation" style="max-width:100%;">
+
+
+    <h3 id="classification-losses">Classification Loss Functions</h3>
+    <p>When the target \(y\) is categorical, our objective is usually to maximize the log-likelihood of the correct class.  Below are the most common losses.</p>
+
+<!-- ───────────── Binary Cross-Entropy (BCE) ───────────── -->
+<h4 id="bce">1. Binary Cross-Entropy (BCE)</h4>
+
+<p>Assume each label \(y \in \{0,1\}\) is drawn from a Bernoulli distribution
+parameterised by the model's prediction  
+\(\hat y = p_\theta(y{=}1 \mid \mathbf x)\).  
+Its probability mass function is</p>
+
+<p style="text-align:center">
+\[
+  P_\theta(y \mid \mathbf x) \;=\; \hat y^{\,y}\,
+  (1-\hat y)^{\,1-y}.
+\]
+</p>
+
+<p>The log-likelihood for a single observation becomes</p>
+
+<p style="text-align:center">
+\[
+  \ell(\theta) \;=\; \log P_\theta(y \mid \mathbf x)
+  \;=\; y \log \hat y \;+\; (1-y)\log(1-\hat y).
+\]
+</p>
+
+<p>Maximising the likelihood is identical to minimising its negative,
+yielding the **Binary Cross-Entropy loss**</p>
+
+<p style="text-align:center">
+\[
+  L_{\text{BCE}}(y,\hat y)
+  = -\bigl(y\log\hat y + (1 - y)\log(1 - \hat y)\bigr).
+\]
+</p>
+
+<!-- Gradient -->
+<p><strong>Gradient with respect to the probability \(\hat y\)</strong></p>
+
+<p style="text-align:center">
+\[
+  \frac{\partial L_{\text{BCE}}}{\partial \hat y}
+  = -\frac{y}{\hat y} + \frac{1 - y}{1 - \hat y}
+  = \frac{\hat y - y}{\hat y(1-\hat y)}.
+\]
+</p>
+
+<p>When training with logits \(z = \sigma^{-1}(\hat y)\) instead of
+probabilities, the derivative simplifies elegantly to</p>
+
+<p style="text-align:center">
+\[
+  \frac{\partial L_{\text{BCE}}}{\partial z} = \hat y - y,
+\]
+</p>
+
+<p>which makes logistic-regression-style updates extremely convenient.</p>
+
+<pre><code class="language-python">import torch.nn.functional as F
+
+def bce_loss(y_true, y_pred, eps=1e-7):
+    y_pred = y_pred.clamp(min=eps, max=1 - eps)
+    return F.binary_cross_entropy(y_pred, y_true)
+</code></pre>
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- ────────────── Categorical / Softmax Cross-Entropy ────────────── -->
+<h4 id="cce">2. Categorical / Softmax Cross-Entropy</h4>
+
+<p>Let logits \(\mathbf z\in\mathbb R^{K}\) be transformed via soft-max</p>
+
+<p style="text-align:center">
+\[
+  p_k \;=\; \operatorname{softmax}(\mathbf z)_k
+  \;=\; \frac{\exp(z_k)}{\sum_{j=1}^{K}\exp(z_j)}.
+\]
+</p>
+
+<p>Assuming a <em>one-hot</em> ground-truth vector
+\(\mathbf y\) with \(y_c=1\) for the correct class \(c\), the
+categorical (multinomial) likelihood of a single sample is</p>
+
+<p style="text-align:center">
+\[
+  P_\theta(\mathbf y\mid\mathbf x)
+  \;=\;\prod_{k=1}^{K} p_k^{\,y_k}
+  \;=\; p_c.
+\]
+</p>
+
+<p>The negative log-likelihood (= loss) therefore simplifies to</p>
+
+<p style="text-align:center">
+\[
+  L_{\text{CE}}
+  = -\sum_{k=1}^{K} y_k\log p_k
+  = -\log p_c.
+\]
+</p>
+
+<!-- Gradient -->
+<p><strong>Gradient w.r.t.&nbsp;each logit \(z_k\)</strong></p>
+
+<p style="text-align:center">
+\[
+  \frac{\partial L_{\text{CE}}}{\partial z_k}
+  = p_k - y_k.
+\]
+</p>
+
+<p>The update rule
+is beautifully simple: subtract the one-hot vector, add the prediction.</p>
+
+<pre><code class="language-python">import torch.nn.functional as F
+
+def softmax_ce(logits, target_index):
+    return F.cross_entropy(logits, target_index)
+</code></pre>
+<!-- ──────────────────────────────────────────────────────────────── -->
+
+<!-- ────────────────────────────── Focal Loss ────────────────────────────── -->
+<h4 id="focal">3. Focal Loss</h4>
+
+<p>The <em>Focal Loss</em> (<a href="https://arxiv.org/abs/1708.02002">Lin et al., 2017</a>)
+adds two hyper-parameters—focusing factor \(\gamma\) and class weight
+\(\alpha\)—to address extreme class imbalance by down-weighting "easy"
+examples.</p>
+
+<p style="text-align:center">
+\[
+  L_{\text{Focal}}
+  = -\alpha\,(1 - p_t)^{\gamma}\,\log(p_t),
+  \quad
+  \color{gray}{\text{where } p_t =
+    \begin{cases}
+      p       & \text{if } y=1 \\
+      1-p     & \text{if } y=0
+    \end{cases}}
+\]
+</p>
+When the prediction is already confident (\(p_t\rightarrow 1\))
+the factor \((1-p_t)^\gamma\) shrinks the loss—<br>
+<strong>\(\gamma = 0\)</strong> recovers ordinary CE;  
+<strong>\(\gamma > 0\)</strong> progressively focuses training on hard, mis-classified cases.</p>
+
+<!-- Gradient -->
+<p><strong>Gradient for the binary case</strong></p>
+
+<p style="text-align:center">
+\[
+  \frac{\partial L_{\text{Focal}}}{\partial p}
+  = \frac{\partial}{\partial p}
+    \Bigl[-(1-p_t)^{\gamma}\log(p_t)\Bigr]
+  = (1-p_t)^{\gamma-1}
+    \Bigl[\gamma\,p_t\log(p_t) - (1-p_t)\Bigr]
+    \cdot
+    \begin{cases}
+      +1 & y=1 \\
+      -1 & y=0
+    \end{cases}
+\]
+</p>
+
+<pre><code class="language-python">def focal_loss(y_true, y_pred, alpha=0.25, gamma=2.0, eps=1e-7):
+    y_pred = y_pred.clamp(eps, 1 - eps)
+    p_t    = torch.where(y_true == 1, y_pred, 1 - y_pred)
+    alpha_t = torch.where(y_true == 1, alpha, 1 - alpha)
+    loss = -alpha_t * (1 - p_t) ** gamma * torch.log(p_t)
+    return loss.mean()
+</code></pre>
+<!-- ──────────────────────────────────────────────────────────────── -->
+<!-- ─────────────────── Kullback–Leibler Divergence (KL) ─────────────────── -->
+<h4 id="kl">4. Kullback-Leibler Divergence (KL)</h4>
+
+<p>The KL divergence measures how one probability distribution
+\(\mathbf p\) "departs" from another distribution \(\mathbf q\).
+For discrete variables with \(K\) states:</p>
+
+<p style="text-align:center">
+\[
+  D_{\text{KL}}(\mathbf p\Vert\mathbf q)
+  \;=\;
+  \sum_{k=1}^{K} p_k
+  \log \frac{p_k}{q_k},
+\]
+</p>
+
+<p>which can be derived by comparing the expected <em>code-lengths</em>
+assigned by two optimal Shannon codes (one built for \(\mathbf p\),
+one for \(\mathbf q\)).  Equivalently, it is the expected excess
+negative log-likelihood when using \(\mathbf q\) to encode samples
+drawn from \(\mathbf p\).</p>
+
+<!-- Properties -->
+<ul>
+  <li><strong>Non-negativity:</strong> \(D_{\text{KL}}\ge 0\) with equality
+      <em>iff</em> \(\mathbf p=\mathbf q\).</li>
+  <li><strong>Asymmetry:</strong> \(D_{\text{KL}}(\mathbf p\!\Vert\!\mathbf q)
+      \neq D_{\text{KL}}(\mathbf q\!\Vert\!\mathbf p)\).</li>
+</ul>
+
+<!-- Gradient for model logits -->
+<p><strong>Gradient w.r.t.&nbsp;model logits</strong><br>
+Assume \(\mathbf q\) comes from model logits
+\(\mathbf z\) via soft-max.  One can show</p>
+
+<p style="text-align:center">
+\[
+  \frac{\partial D_{\text{KL}}(\mathbf p\Vert\mathbf q)}
+       {\partial z_j}
+  = q_j - p_j.
+\]
+</p>
+
+<p>This is the same form as the gradient of ordinary cross-entropy;
+therefore many frameworks implement KL as a drop-in replacement.</p>
+
+<!-- Connection to VAEs -->
+<p><strong>Example (Variational Auto-Encoder)</strong><br>
+In VAEs we minimise
+\(\,D_{\text{KL}}\!\bigl(
+   q_\phi(\mathbf z\mid\mathbf x)
+   \;\Vert\;
+   p(\mathbf z)
+ \bigr)\),
+driving the approximate posterior towards the prior, while maximising
+the reconstruction term.</p>
+
+<pre><code class="language-python">def kl_divergence(p, q, eps=1e-7):
+    p = p.clamp(eps, 1)      
+    q = q.clamp(eps, 1)
+    return (p * (p / q).log()).sum(dim=-1).mean()
+</code></pre>
+<!-- ────────────────────────────────────────────────────────────────────────── -->
+<!-- decision-boundary GIFs, side-by-side -->
+<div style="display:flex; gap:12px; justify-content:center; align-items:center; flex-wrap:wrap;">
+  <img src="figures/bce.gif"   alt="BCE decision boundary"   style="max-width:32%; min-width:200px;">
+  <img src="figures/focal.gif" alt="Focal decision boundary" style="max-width:32%; min-width:200px;">
+  <img src="figures/kl.gif"    alt="KL decision boundary"    style="max-width:32%; min-width:200px;">
+</div>
+
+
+    <!-- ────────────────── NEW: RECONSTRUCTION / PERCEPTUAL LOSSES ────────────────── -->
+    <h3 id="reconstruction-losses">Reconstruction / Perceptual Losses</h3>
+    <p>Autoencoders, VAEs, GANs and diffusion models learn to <em>recreate</em> the input or a target sample.  Besides simple pixel-space metrics, perceptual criteria often yield crisper outputs.</p>
+
+    <!-- L1 / MAE -->
+    <h4 id="l1">1. Pixel-space L<sub>1</sub> (MAE)</h4>
+    <p style="text-align:center">\[
+      L_{L1} = \lVert \mathbf x - \hat{\mathbf x}\rVert_{1}
+    \]</p>
+
+    <!-- BCE Reconstruction -->
+    <h4 id="bce-recon">2. Binary Cross-Entropy Reconstruction</h4>
+    <p>Typical for Bernoulli-likelihood VAEs where pixels are scaled to \([0,1]\).</p>
+
+<!-- ────────────────────────── Perceptual / Feature Loss ───────────────────────── -->
+<h4 id="perceptual">4. Perceptual (Feature-Space) Loss</h4>
+
+<p>Pixel-wise criteria (L<sub>1</sub>, L<sub>2</sub>) often treat two
+images as identical if every pixel differs by a small value—even when
+high-level structure is clearly distorted to the human eye.
+<strong>Perceptual loss</strong> fixes this by comparing images in the
+activation space of a pretrained vision network (VGG-19, ResNet-50,
+CLIP ViT, …).</p>
+
+<!-- Definition -->
+<p style="text-align:center">
+\[
+  L_{\text{percep}}(x,\hat x)
+  \;=\;
+  \sum_{\ell\in\mathcal L}
+  \lambda_\ell\;
+  \bigl\lVert
+    \,\phi_\ell(x)\;-\;\phi_\ell(\hat x)\,
+  \bigr\rVert_1,
+\]
+</p>
+
+<p>where \(\phi_\ell\) extracts the feature map at layer \(\ell\) and
+\(\lambda_\ell\) are user-defined weights (often all 1).</p>
+
+<!-- Why useful -->
+<ul>
+  <li><strong>Super-resolution / deblurring</strong> – encourages sharp
+      edges that "look" realistic rather than simply low MSE.</li>
+  <li><strong>Style-transfer</strong> – combine a content perceptual
+      term with a Gram-matrix style term.</li>
+  <li><strong>GANs & Diffusion</strong> – perceptual fine-tuning leads
+      to crisper outputs.</li>
+</ul>
+
+<!-- Gradient note -->
+<p><strong>Back-propagation:</strong>
+Gradients flow through the frozen feature extractor:
+\(\displaystyle
+  \tfrac{\partial L}{\partial \hat x}
+  = \sum_\ell
+    \lambda_\ell\,
+    \partial \phi_\ell^\top\,
+    \operatorname{sgn}\bigl[\phi_\ell(\hat x)-\phi_\ell(x)\bigr]\),
+making training stable because \(\phi_\ell\) parameters remain fixed.</p>
+
+<pre><code class="language-python">import torch.nn.functional as F
+from torchvision import models
+
+vgg = models.vgg19(weights=models.VGG19_Weights.DEFAULT).features.eval()
+
+def perceptual_loss(x, x_hat, layers=(8, 17)):  # conv3_3 ≈ 16, conv4_3 ≈ 25
+    with torch.no_grad():
+        feats_x, feats_hat = [], []
+        out_x, out_hat = x, x_hat
+        for i, layer in enumerate(vgg):
+            out_x  = layer(out_x)
+            out_hat = layer(out_hat)
+            if i in layers:
+                feats_x.append(out_x)
+                feats_hat.append(out_hat)
+    loss = sum(F.l1_loss(fh, fx) for fx, fh in zip(feats_x, feats_hat))
+    return loss
+</code></pre>
+<!-- ───────────────────────────────────────────────────────────────────────────── -->
+<!-- ─────────────────────────── Charbonnier (Smooth-L1) Loss ─────────────────────────── -->
+<h4 id="charbonnier">5. Charbonnier (Smooth&nbsp;L1) Loss</h4>
+
+<p>The Charbonnier loss—sometimes called "Smooth L1"—is a
+strictly differentiable approximation of the absolute-error (L<sub>1</sub>)
+that behaves quadratically near zero and linearly in the tails,
+providing robustness against outliers without the gradient singularity
+of L<sub>1</sub>.</p>
+
+<!-- Definition -->
+<p style="text-align:center">
+\[
+  L_{\text{Charb}}\bigl(e\bigr)
+  \;=\;
+  \sqrt{e^{2} + \epsilon^{2}},
+  \qquad e = x - \hat x,
+\]
+</p>
+
+<p>where \(\epsilon>0\) is a small constant (e.g.&nbsp;1e-3 or 1e-6)
+controlling the transition width between the quadratic and linear
+regimes.</p>
+
+<!-- Taylor expansion -->
+<p><strong>Near zero error.</strong>  Using a second-order expansion
+(\(e\ll\epsilon\)):</p>
+
+<p style="text-align:center">
+\[
+  L_{\text{Charb}}
+  = \epsilon\,
+    \sqrt{1 + \bigl(e/\epsilon\bigr)^2}
+  \;\approx\;
+    \epsilon
+    \Bigl[1 + \tfrac12(e/\epsilon)^2 - \tfrac18(e/\epsilon)^4 + \dots\Bigr]
+  \;\approx\;
+    \tfrac{e^{2}}{2\,\epsilon} + \mathcal O(e^{4}),
+\]
+</p>
+
+<p>hence the loss is effectively **quadratic** near the optimum,
+leading to smooth convergence.</p>
+
+<!-- Gradient -->
+<p><strong>Gradient.</strong></p>
+
+<p style="text-align:center">
+\[
+  \frac{\partial L_{\text{Charb}}}{\partial \hat x}
+  = -\frac{e}{\sqrt{e^{2} + \epsilon^{2}}}.
+\]
+</p>
+
+<p>As \(|e|\rightarrow\infty\) this gradient approaches \(-\operatorname{sign}(e)\),
+matching MAE's clipping behaviour and preventing exploding updates.</p>
+
+<!-- Code -->
+<pre><code class="language-python">import torch
+import torch.nn.functional as F
+
+def charbonnier_loss(x, x_hat, eps=1e-6):
+    diff = x - x_hat
+    loss = torch.sqrt(diff * diff + eps * eps)
+    return loss.mean()
+</code></pre>
+<!-- ─────────────────────────────────────────────────────────────────────────────── -->
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+  <figure style="width: 48%; margin: 0; text-align: center;">
+    <img src="figures/recon_l1.png" alt="L1 Reconstruction" style="width:100%;">
+    <figcaption><strong>L1 Loss</strong><br>PSNR: 26.16 dB</figcaption>
+  </figure>
+  <figure style="width: 48%; margin: 0; text-align: center;">
+    <img src="figures/recon_bce.png" alt="BCE Reconstruction" style="width:100%;">
+    <figcaption><strong>BCE Loss</strong><br>PSNR: 26.26 dB</figcaption>
+  </figure>
+  <figure style="width: 48%; margin: 0; text-align: center;">
+    <img src="figures/recon_charb.png" alt="Charbonnier Reconstruction" style="width:100%;">
+    <figcaption><strong>Charbonnier Loss</strong><br>PSNR: 26.68 dB</figcaption>
+  </figure>
+</div>
+  </main>
+  <footer style="text-align: center; padding: 20px 0;">
+    <p>Made by @aizora</p>
+  </footer>
+</body>
+</html>
+
