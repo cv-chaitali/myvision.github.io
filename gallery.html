@@ -1,8 +1,6 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,8 +34,10 @@
       opacity: 0;
       animation: fadeIn 0.5s ease-out forwards;
       transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-      user-select: none; /* Prevents text selection on images */
-      -webkit-user-drag: none; /* Prevents dragging on WebKit browsers */
+      user-select: none;
+      /* Prevents text selection on images */
+      -webkit-user-drag: none;
+      /* Prevents dragging on WebKit browsers */
     }
 
     .gallery-grid img:hover {
@@ -46,8 +46,13 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* Optional overlay to deter saving */
@@ -63,6 +68,7 @@
     }
   </style>
 </head>
+
 <body data-theme="light">
   <nav class="nav">
     <div class="nav-links">
@@ -78,16 +84,31 @@
     <h2>Photography Gallery</h2>
     <p>A collection of my favorite photographs.</p>
     <div class="gallery-grid">
-      <img src="1.jpg" alt="Photo 1">
-      <img src="2.jpg" alt="Photo 2">
-      <img src="3.jpg" alt="Photo 3">
-      <img src="4.jpg" alt="Photo 4">
-      <img src="5.jpg" alt="Photo 5">
-      <img src="6.jpg" alt="Photo 6">
-      <img src="7.jpg" alt="Photo 7">
-      <img src="8.jpg" alt="Photo 8">
-      <img src="9.jpg" alt="Photo 9">
-      <img src="10.jpg" alt="Photo 10">
+      <img src="canon/1.jpg" alt="Photo 1">
+      <img src="canon/2.jpg" alt="Photo 2">
+      <img src="canon/3.jpg" alt="Photo 3">
+      <img src="canon/4.jpg" alt="Photo 4">
+      <img src="canon/5.jpg" alt="Photo 5">
+      <img src="canon/6.jpg" alt="Photo 6">
+      <img src="canon/7.jpg" alt="Photo 7">
+      <img src="canon/8.jpg" alt="Photo 8">
+      <img src="canon/9.jpg" alt="Photo 9">
+      <img src="canon/10.jpg" alt="Photo 10">
+      <img src="canon/IMG_1170.JPG" alt="Photo 11">
+      <img src="canon/IMG_1848.JPG" alt="Photo 13">
+      <img src="canon/IMG_2986.JPG" alt="Photo 14">
+      <img src="canon/IMG_2987.JPG" alt="Photo 15">
+      <img src="canon/IMG_2992.JPG" alt="Photo 16">
+      <img src="canon/IMG_2993.JPG" alt="Photo 17">
+      <img src="canon/IMG_3007.JPG" alt="Photo 18">
+      <img src="canon/IMG_3008.JPG" alt="Photo 19">
+      <img src="canon/IMG_3009.JPG" alt="Photo 20">
+      <img src="canon/IMG_3011.JPG" alt="Photo 21">
+      <img src="canon/IMG_3016.JPG" alt="Photo 23">
+      <img src="canon/IMG_3021.JPG" alt="Photo 24">
+      <img src="canon/IMG_3034.JPG" alt="Photo 25">
+      <img src="canon/IMG_3036.JPG" alt="Photo 26">
+      <img src="canon/IMG_3039.JPG" alt="Photo 27">
     </div>
   </section>
 
@@ -120,4 +141,5 @@
     });
   </script>
 </body>
+
 </html>
