@@ -96,52 +96,87 @@
   </section>
 
   <section class="updates">
-    <h2>Updates</h2>
-    <ul>
-      <li class="update-item" style="color: #1c76ba;">
+    <div class="updates-header">
+      <h2>Updates</h2>
+      <div class="updates-toggle">
+        <button class="toggle-btn active" data-filter="latest">Latest</button>
+        <button class="toggle-btn" data-filter="archive">Archive</button>
+      </div>
+    </div>
+    <ul id="updatesList">
+      <li class="update-item" data-category="latest" style="color: #1c76ba;">
         <span class="date" style="font-weight: bold; color: #b0413e;">2026-01-07</span>
-        <span class="content" style="color: #1c76ba;"> Will be joining POSTECH-EE as a PhD student 🍀🕉️ </span>
+        <span class="content" style="color: #1c76ba;">Will be joining POSTECH-EE as a PhD student 🍀🕉️</span>
       </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2025-05-01</span>
+        <span class="content" style="color: #1c76ba;">Internship paper accepted at CVPR Workshop 2025</span>
+      </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2024-07-20</span>
+        <span class="content" style="color: #1c76ba;">Graduated from Yeungnam University</span>
+      </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2023-12-15</span>
+        <span class="content" style="color: #1c76ba;">Started research internship @UP-Lab, University of Surrey</span>
+      </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2023-09-31</span>
+        <span class="content" style="color: #1c76ba;">One paper got accepted in Applied Sciences</span>
+      </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2022-09-01</span>
+        <span class="content" style="color: #1c76ba;">Started MS degree course at Yeungnam University, GKS</span>
+      </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2021-09-01</span>
+        <span class="content" style="color: #1c76ba;">Started Korean Language Course at KNU, GKS</span>
+      </li>
+      <li class="update-item" data-category="archive" style="color: #1c76ba; display: none;">
+        <span class="date" style="font-weight: bold; color: #b0413e;">2021-07-01</span>
+        <span class="content" style="color: #1c76ba;">Got accepted Global Korea Scholarship for MS in Electronics Engineering at Yeungnam</span>
+      </li>
+    </ul>
   </section>
 
   <section class="papers">
     <h2>Papers</h2>
     <ul>
       <li class="paper-item">
-        <span class="year">2025</span>
+        <span class="year-badge">2025</span>
         <a href="https://arxiv.org/abs/2505.00624" class="title">
           FineScope : Precision Pruning for Domain-Specialized Large Language Models Using SAE-Guided Self-Data
           Cultivation
         </a>
-        <span class="venue">ArXiv</span>
+        <span class="venue-badge">ArXiv</span>
       </li>
       <li class="paper-item">
-        <span class="year">2025</span>
+        <span class="year-badge">2025</span>
         <a href="https://arxiv.org/abs/2404.01579" class="title">
           Diffusion Deepfake
         </a>
-        <span class="venue">CVPR-Workshop</span>
+        <span class="venue-badge">CVPR-Workshop</span>
       </li>
       <li class="paper-item">
-        <span class="year">2024</span>
+        <span class="year-badge">2024</span>
         <a href="https://www.mdpi.com/1424-8220/24/7/2286" class="title">
           S-LIGHT: Synthetic Dataset for the Separation of Diffuse and Specular Reflection Images
         </a>
-        <span class="venue">Sensors</span>
+        <span class="venue-badge">Sensors</span>
       </li>
       <li class="paper-item">
-        <span class="year">2024</span>
+        <span class="year-badge">2024</span>
         <a href="https://www.mdpi.com/2076-3417/14/7/2763" class="title">
           EGCY-Net: An ELAN and GhostConv-Based YOLO Network for Stacked Packages in Logistic Systems
         </a>
-        <span class="venue">Applied Sciences</span>
+        <span class="venue-badge">Applied Sciences</span>
       </li>
       <li class="paper-item">
-        <span class="year">2023</span>
+        <span class="year-badge">2023</span>
         <a href="https://www.mdpi.com/2076-3417/13/21/11977" class="title">
           Black Ice Classification with Hyperspectral Imaging and Deep Learning
         </a>
-        <span class="venue">Applied Sciences</span>
+        <span class="venue-badge">Applied Sciences</span>
       </li>
     </ul>
   </section>
@@ -174,9 +209,40 @@
   <footer>© Chaitali</footer>
 
   <script>
+    // Theme toggle
     document.getElementById('themeToggle').addEventListener('click', function () {
       document.body.dataset.theme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
       this.textContent = document.body.dataset.theme === 'light' ? '☀️' : '🌙';
+    });
+
+    // Updates toggle functionality
+    const toggleButtons = document.querySelectorAll('.toggle-btn');
+    const updateItems = document.querySelectorAll('.update-item');
+
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        toggleButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Get filter category
+        const filter = this.getAttribute('data-filter');
+        
+        // Show/hide updates based on category
+        updateItems.forEach(item => {
+          const category = item.getAttribute('data-category');
+          
+          if (filter === 'latest' && category === 'latest') {
+            item.style.display = '';
+          } else if (filter === 'archive' && category === 'archive') {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
     });
   </script>
 </body>
