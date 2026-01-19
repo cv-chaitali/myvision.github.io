@@ -57,7 +57,7 @@
       <img src="./download.png" alt="Logo" class="profile-logo">
       <div>
         <h1 class="profile-name">Chaitali Bhattacharyya</h1>
-        <p class="profile-tagline">PhD Student | Large Language Model | Efficient AI</p>
+        <p class="profile-tagline typing-effect">PhD Student | Large Language Model | Efficient AI</p>
         <hr class="profile-line">
       </div>
     </div>
@@ -95,7 +95,7 @@
     <img src="./image.jpg" alt="Korea Street">
   </section>
 
-  <section class="updates">
+  <section class="updates reveal">
     <div class="updates-header">
       <h2>Updates</h2>
       <div class="updates-toggle">
@@ -147,7 +147,7 @@
     </ul>
   </section>
 
-  <section class="papers">
+  <section class="papers reveal">
     <h2>Papers</h2>
     <ul>
       <li class="paper-item">
@@ -189,7 +189,7 @@
     </ul>
   </section>
 
-  <section class="projects">
+  <section class="projects reveal">
     <h2>Project Pages</h2>
     <ul>
       <li class="project-item">
@@ -215,6 +215,8 @@
 
 
   <footer>© Chaitali</footer>
+
+  <a href="timeline.html" class="floating-timeline-btn">Tracking Conference Timeline</a>
 
   <script>
     // Theme toggle
@@ -252,6 +254,22 @@
         });
       });
     });
+
+    // Scroll Reveal
+    function reveal() {
+      var reveals = document.querySelectorAll(".reveal");
+      for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150;
+        if (elementTop < windowHeight - elementVisible) {
+          reveals[i].classList.add("active");
+        }
+      }
+    }
+    window.addEventListener("scroll", reveal);
+    // Trigger once on load
+    reveal();
   </script>
 </body>
 

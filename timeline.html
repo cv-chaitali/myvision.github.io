@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Timeline 2026 - Chaitali Bhattacharyya</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7CPWZ8SX5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    /* basic page-view */
+    gtag('config', 'G-T7CPWZ8SX5', {
+      debug_mode: true   // optional – remove when happy
+    });
+  </script>
+</head>
+
+<body data-theme="light">
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="cv.html">CV/Résumé</a>
+      <a href="aizora/index.html">Blogs</a>
+      <a href="gallery.html">Gallery</a>
+    </div>
+    <div class="theme-toggle" id="themeToggle">☀️</div>
+  </nav>
+
+  <!-- Conference Timeline Section -->
+  <section class="conference-timeline">
+    <div class="timeline-header">
+      <h2>Conference Timeline 2026</h2>
+      <div class="timeline-filters" id="timelineFilters">
+        <button class="filter-btn active" data-domain="all">All</button>
+      </div>
+    </div>
+    <div class="timeline-container" id="timelineContainer">
+      <!-- Populated by JS -->
+    </div>
+  </section>
+
+  <footer>© Chaitali</footer>
+
+  <script>
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      document.body.dataset.theme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+      this.textContent = document.body.dataset.theme === 'light' ? '☀️' : '🌙';
+    });
+  </script>
+  <script src="conferences_data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('timelineContainer');
+      const filtersContainer = document.getElementById('timelineFilters');
+      
+      // Extract unique domains
+      const domains = new Set(conferenceData.map(c => c.domain).filter(d => d));
+      const sortedDomains = Array.from(domains).sort();
+      
+      // Create filter buttons
+      sortedDomains.forEach(domain => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.textContent = domain;
+        btn.dataset.domain = domain;
+        btn.addEventListener('click', () => filterTimeline(domain));
+        filtersContainer.appendChild(btn);
+      });
+      
+      // Filter logic
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          renderTimeline(this.dataset.domain);
+        });
+      });
+      
+      function renderTimeline(filterDomain) {
+        container.innerHTML = '';
+        
+        const filteredData = filterDomain === 'all' 
+          ? conferenceData 
+          : conferenceData.filter(c => c.domain === filterDomain);
+          
+        let currentMonth = '';
+        
+        filteredData.forEach(conf => {
+           let monthYear = '';
+           let dateDisplay = '';
+           
+           if (conf.deadline === 'TBA' || (conf.is_tba && conf.deadline.startsWith('9999'))) {
+             monthYear = 'TBA / Unknown';
+             dateDisplay = 'TBA';
+           } else {
+             const date = new Date(conf.deadline);
+             monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+             dateDisplay = date.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' });
+             if (conf.is_tba) dateDisplay += ' (Est)';
+           }
+           
+           if (monthYear !== currentMonth) {
+             currentMonth = monthYear;
+             const monthHeader = document.createElement('div');
+             monthHeader.className = 'timeline-month';
+             monthHeader.textContent = currentMonth;
+             container.appendChild(monthHeader);
+           }
+           
+           const item = document.createElement('div');
+           item.className = 'timeline-item';
+           
+           const tbaBadge = conf.is_tba ? `<span class="conf-tba">${conf.deadline === 'TBA' ? 'TBA' : 'Est'}</span>` : '';
+           const abstractDisplay = conf.abstract_deadline 
+             ? `<span class="conf-abstract">Abs: ${new Date(conf.abstract_deadline).toLocaleDateString('default', { month: 'short', day: 'numeric' })}</span>` 
+             : '';
+           
+           item.innerHTML = `
+             <div class="conf-header">
+               <span class="conf-acronym">${conf.acronym}</span>
+               <div style="text-align:right;">
+                 <span class="conf-date">${dateDisplay}</span>
+                 ${abstractDisplay ? '<br>' + abstractDisplay : ''}
+               </div>
+             </div>
+             <span class="conf-name">${conf.full_name}</span>
+             <div class="conf-meta">
+               <span class="conf-domain">${conf.domain}</span>
+               ${conf.rating ? `<span class="conf-rating">Rating: ${conf.rating}</span>` : ''}
+               ${tbaBadge}
+             </div>
+           `;
+           
+           container.appendChild(item);
+        });
+        
+        if (filteredData.length === 0) {
+          container.innerHTML = '<div style="padding:20px; text-align:center; opacity:0.6;">No conferences found for this domain.</div>';
+        }
+      }
+      
+      // Initial render
+      renderTimeline('all');
+    });
+  </script>
+</body>
+</html>

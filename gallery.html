@@ -8,63 +8,211 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
   <style>
+    body {
+      background-color: var(--bg-color);
+      background-image: radial-gradient(var(--text-color) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    
+    /* Reduce opacity of the background pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%;
+      background: var(--bg-color);
+      opacity: 0.97;
+      z-index: -1;
+    }
+
     .gallery {
-      max-width: 900px;
-      margin: 30px auto;
+      max-width: 1000px;
+      margin: 40px auto;
       text-align: center;
+      padding: 0 20px;
+    }
+
+    .gallery-header {
+      margin-bottom: 40px;
+      position: relative;
+      display: inline-block;
     }
 
     .gallery h2 {
-      font-size: 28px;
+      font-size: 42px;
       margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #6D28D9 0%, #DB2777 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .gallery-subtitle {
+      font-size: 16px;
+      opacity: 0.7;
+      max-width: 600px;
+      margin: 0 auto 20px;
     }
 
-    /* Use CSS columns for a masonry layout */
+    .shuffle-btn {
+      background: var(--highlight-color);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-family: var(--font);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shuffle-btn:hover {
+      transform: translateY(-3px) rotate(-2deg);
+      box-shadow: 0 8px 25px rgba(109, 40, 217, 0.5);
+    }
+    
+    .shuffle-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* Masonry Layout */
     .gallery-grid {
       column-count: 3;
-      column-gap: 15px;
-      padding: 20px;
+      column-gap: 30px;
+      padding: 20px 0;
     }
 
-    .gallery-grid img {
+    @media (max-width: 768px) {
+      .gallery-grid {
+        column-count: 2;
+        column-gap: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid {
+        column-count: 1;
+      }
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 30px;
+      background: white;
+      padding: 12px 12px 30px 12px; /* Polaroid padding */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transform: rotate(0deg);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      cursor: zoom-in;
+    }
+    
+    [data-theme="dark"] .gallery-item {
+      background: #2a2a2a;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05) rotate(2deg) !important; /* Override random rotation on hover */
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+
+    .gallery-item img {
       width: 100%;
       display: block;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      opacity: 0;
-      animation: fadeIn 0.5s ease-out forwards;
-      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-      user-select: none;
-      /* Prevents text selection on images */
-      -webkit-user-drag: none;
-      /* Prevents dragging on WebKit browsers */
+      /* border-radius: 2px; */ /* Sharp corners for photos */
+      filter: sepia(10%);
+      transition: filter 0.3s ease;
     }
 
-    .gallery-grid img:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
+    .gallery-item:hover img {
+      filter: sepia(0%);
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    /* Optional overlay to deter saving */
-    .gallery-grid img::after {
-      content: '';
-      position: absolute;
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: transparent;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
       pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border: 10px solid white;
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    [data-theme="dark"] .lightbox img {
+      border-color: #2a2a2a;
+    }
+
+    .lightbox.active img {
+      transform: scale(1);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 40px;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
   </style>
 </head>
@@ -74,43 +222,58 @@
     <div class="nav-links">
       <a href="index.html#about">About</a>
       <a href="cv.html">CV</a>
-      <a href="https://aizora.github.io/">Blogs</a>
+      <a href="aizora/index.html">Blogs</a>
       <a href="gallery.html">Gallery</a>
     </div>
     <div class="theme-toggle" id="themeToggle">☀️</div>
   </nav>
 
   <section class="gallery">
-    <h2>Photography Gallery</h2>
-    <p>A collection of my favorite photographs.</p>
-    <div class="gallery-grid">
-      <img src="canon/1.jpg" alt="Photo 1">
-      <img src="canon/2.jpg" alt="Photo 2">
-      <img src="canon/3.jpg" alt="Photo 3">
-      <img src="canon/4.jpg" alt="Photo 4">
-      <img src="canon/5.jpg" alt="Photo 5">
-      <img src="canon/6.jpg" alt="Photo 6">
-      <img src="canon/7.jpg" alt="Photo 7">
-      <img src="canon/8.jpg" alt="Photo 8">
-      <img src="canon/9.jpg" alt="Photo 9">
-      <img src="canon/10.jpg" alt="Photo 10">
-      <img src="canon/IMG_1170.JPG" alt="Photo 11">
-      <img src="canon/IMG_1848.JPG" alt="Photo 13">
-      <img src="canon/IMG_2986.JPG" alt="Photo 14">
-      <img src="canon/IMG_2987.JPG" alt="Photo 15">
-      <img src="canon/IMG_2992.JPG" alt="Photo 16">
-      <img src="canon/IMG_2993.JPG" alt="Photo 17">
-      <img src="canon/IMG_3007.JPG" alt="Photo 18">
-      <img src="canon/IMG_3008.JPG" alt="Photo 19">
-      <img src="canon/IMG_3009.JPG" alt="Photo 20">
-      <img src="canon/IMG_3011.JPG" alt="Photo 21">
-      <img src="canon/IMG_3016.JPG" alt="Photo 23">
-      <img src="canon/IMG_3021.JPG" alt="Photo 24">
-      <img src="canon/IMG_3034.JPG" alt="Photo 25">
-      <img src="canon/IMG_3036.JPG" alt="Photo 26">
-      <img src="canon/IMG_3039.JPG" alt="Photo 27">
+    <div class="gallery-header">
+      <h2>Visual Diary</h2>
+      <p class="gallery-subtitle">Capturing moments<br></p>
+      <button class="shuffle-btn" id="shuffleBtn">
+        <svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+        Shuffle Memories
+      </button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item"><img src="canon/1.jpg" alt="Photo 1" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/2.jpg" alt="Photo 2" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/3.jpg" alt="Photo 3" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/4.jpg" alt="Photo 4" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/5.jpg" alt="Photo 5" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/6.jpg" alt="Photo 6" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/7.jpg" alt="Photo 7" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/8.jpg" alt="Photo 8" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/9.jpg" alt="Photo 9" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/10.jpg" alt="Photo 10" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_1170.JPG" alt="Photo 11" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_1848.JPG" alt="Photo 13" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_2986.JPG" alt="Photo 14" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_2987.JPG" alt="Photo 15" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_2992.JPG" alt="Photo 16" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_2993.JPG" alt="Photo 17" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3007.JPG" alt="Photo 18" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3008.JPG" alt="Photo 19" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3009.JPG" alt="Photo 20" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3011.JPG" alt="Photo 21" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3016.JPG" alt="Photo 23" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3021.JPG" alt="Photo 24" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3034.JPG" alt="Photo 25" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3036.JPG" alt="Photo 26" loading="lazy"></div>
+      <div class="gallery-item"><img src="canon/IMG_3039.JPG" alt="Photo 27" loading="lazy"></div>
     </div>
   </section>
+
+  <!-- Lightbox Container -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-close" id="lightboxClose">&times;</div>
+    <img src="" alt="Full screen" id="lightboxImg">
+  </div>
+
+  <a href="timeline.html" class="floating-timeline-btn">Tracking Conference Timeline</a>
 
   <footer>© 2025 Chaitali</footer>
 
@@ -120,24 +283,91 @@
       this.textContent = document.body.dataset.theme === 'light' ? '☀️' : '🌙';
     });
 
-    // Disable right-click on images
-    document.querySelectorAll('.gallery-grid img').forEach(img => {
-      img.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        alert('Downloading images is not allowed.');
+    // Random Rotation for Polaroids
+    function randomizePolaroids() {
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach((item, index) => {
+        // Random rotation between -3 and 3 degrees
+        const rotation = Math.random() * 6 - 3; 
+        item.style.transform = `rotate(${rotation}deg)`;
+        
+        // Staggered animation
+        item.style.animation = 'none';
+        item.offsetHeight; /* trigger reflow */
+        item.style.animation = `popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.05}s forwards`;
       });
+    }
 
-      // Disable drag-and-drop
-      img.addEventListener('dragstart', (e) => {
-        e.preventDefault();
-      });
+    // Shuffle Functionality
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const galleryGrid = document.getElementById('galleryGrid');
 
-      // Disable saving via keyboard shortcuts (optional, less effective)
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && (e.key === 'S' || e.key === 's')) {
-          e.preventDefault();
-        }
-      });
+    shuffleBtn.addEventListener('click', () => {
+      const items = Array.from(galleryGrid.children);
+      
+      // Fisher-Yates Shuffle
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
+      }
+      
+      // Clear and re-append
+      galleryGrid.innerHTML = '';
+      items.forEach(item => galleryGrid.appendChild(item));
+      
+      // Re-apply styles
+      randomizePolaroids();
+    });
+
+    // Initial Randomization
+    randomizePolaroids();
+
+    // Lightbox Functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    // Use event delegation for lightbox since items might be re-ordered
+    galleryGrid.addEventListener('click', function(e) {
+      const item = e.target.closest('.gallery-item');
+      if (item) {
+        const img = item.querySelector('img');
+        lightboxImg.src = img.src;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    // Disable right-click
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+      }
+    });
+    
+    document.addEventListener('dragstart', (e) => {
+      if (e.target.tagName === 'IMG') {
+        e.preventDefault();
+      }
     });
   </script>
 </body>
