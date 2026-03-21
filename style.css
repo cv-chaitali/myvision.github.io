@@ -44,6 +44,7 @@ body {
   max-width: 900px;
   margin: auto;
   padding: 30px 20px;
+  z-index: 100;
 }
 
 .nav-links {
@@ -970,4 +971,99 @@ p a:hover {
 .paper-item:hover, .project-item:hover, .update-item:hover {
   transform: translateY(-5px) scale(1.01);
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* ============================================
+   Dropdown Nav (Etc menu)
+   ============================================ */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  color: var(--text-color);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 30px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: inline-block;
+  user-select: none;
+  letter-spacing: 0.01em;
+}
+
+.dropdown-toggle:hover {
+  color: var(--highlight-color);
+  background: rgba(109, 40, 217, 0.08);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(109, 40, 217, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 8px;
+  padding-top: 14px; /* visual gap pushed inside so no hover dead zone */
+  min-width: 170px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 200;
+}
+
+/* invisible bridge fills the space between toggle and menu */
+.nav-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -10px;
+  right: -10px;
+  height: 14px;
+}
+
+.nav-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+  background: rgba(109, 40, 217, 0.08);
+  color: var(--highlight-color);
+  transform: translateX(3px);
+}
+
+[data-theme="dark"] .dropdown-menu {
+  background: rgba(28, 28, 28, 0.97);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .dropdown-toggle:hover {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--highlight-color);
+}
+
+[data-theme="dark"] .dropdown-menu a:hover {
+  background: rgba(139, 92, 246, 0.12);
 }

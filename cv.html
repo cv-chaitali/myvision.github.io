@@ -55,6 +55,13 @@
             text-decoration: underline;
         }
     </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7CPWZ8SX5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-T7CPWZ8SX5');
+  </script>
 </head>
 <body data-theme="light">
     <nav class="nav">
@@ -62,7 +69,14 @@
             <a href="index.html#about">About</a>
             <a href="cv.html">CV/Résumé</a>
             <a href="aizora/index.html">Blogs</a>
-            <a href="gallery.html">Gallery</a>
+            <div class="nav-dropdown">
+              <span class="dropdown-toggle">Etc ▾</span>
+              <div class="dropdown-menu">
+                <a href="gallery.html">📷 Gallery</a>
+                <a href="book-review.html">📚 Book Review</a>
+                <a href="music-playlist.html">🎵 Music Playlist</a>
+              </div>
+            </div>
         </div>
         <div class="theme-toggle" id="themeToggle">☀️</div>
     </nav>
@@ -162,9 +176,8 @@
         </div>
     </section>
 
-    <a href="timeline.html" class="floating-timeline-btn">Tracking Conference Timeline</a>
 
-    <footer>© 2025 Chaitali</footer>
+    <footer>© Chaitali & AI gang</footer>
 
     <script>
         document.getElementById('themeToggle').addEventListener('click', function () {

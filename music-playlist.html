@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Playlist — Chaitali</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    :root { --highlight-color: #A78BFA; }
+    .music-page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── Hero ── */
+    .music-hero {
+      text-align: center;
+      padding: 20px 0 48px;
+      position: relative;
+    }
+
+    .vinyl-icon {
+      display: inline-block;
+      font-size: 52px;
+      margin-bottom: 16px;
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .music-hero h1 {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #F472B6 0%, #A78BFA 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .music-hero-sub {
+      font-size: 13px;
+      opacity: 0.45;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .music-hero::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #F472B6, #A78BFA);
+      margin: 24px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── Playlist section ── */
+    .playlist-block {
+      margin-bottom: 44px;
+    }
+
+    .playlist-block-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    }
+
+    .playlist-block-header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      opacity: 0.5;
+      margin: 0;
+    }
+
+    .playlist-block-header .mood-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Track row ── */
+    .track-row {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 4px;
+      transition: all 0.2s ease;
+      cursor: default;
+      position: relative;
+    }
+
+    .track-row:hover {
+      background: rgba(167, 139, 250, 0.05);
+      transform: translateX(4px);
+    }
+
+    [data-theme="dark"] .track-row:hover {
+      background: rgba(196, 181, 253, 0.08);
+    }
+
+    .track-num {
+      font-size: 12px;
+      opacity: 0.3;
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .track-row:hover .track-num {
+      opacity: 0;
+    }
+
+    .play-icon {
+      position: absolute;
+      left: 16px;
+      font-size: 12px;
+      color: var(--highlight-color);
+      opacity: 0;
+      transition: opacity 0.15s;
+      width: 28px;
+      text-align: right;
+    }
+
+    .track-row:hover .play-icon { opacity: 1; }
+
+    .track-main { min-width: 0; }
+
+    .track-title {
+      font-size: 15px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .track-artist {
+      font-size: 12px;
+      opacity: 0.45;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .track-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .track-lang {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid rgba(167, 139, 250, 0.18);
+      color: var(--highlight-color);
+      font-weight: 500;
+      background: rgba(167, 139, 250, 0.05);
+    }
+
+    .track-duration {
+      font-size: 12px;
+      opacity: 0.3;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── Playlist card ── */
+    .playlist-card {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(167, 139, 250, 0.15), 0 4px 16px rgba(0,0,0,0.06);
+      border: 1px solid rgba(167, 139, 250, 0.1);
+      margin-bottom: 24px;
+    }
+
+    .playlist-card-inner {
+      background: linear-gradient(135deg, #F5F0FF 0%, #EDE9FE 50%, #F5F0FF 100%);
+      padding: 48px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated blobs */
+    .playlist-card-inner::before,
+    .playlist-card-inner::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .playlist-card-inner::before {
+      width: 260px; height: 260px;
+      background: #A78BFA;
+      top: -60px; left: -60px;
+    }
+    .playlist-card-inner::after {
+      width: 220px; height: 220px;
+      background: #F472B6;
+      bottom: -60px; right: -40px;
+    }
+
+    .pc-eq {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pc-bar {
+      width: 4px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, #F472B6, #A78BFA);
+      animation: eq-bounce 1.1s ease-in-out infinite alternate;
+    }
+
+    @keyframes eq-bounce {
+      from { height: 6px; }
+      to   { height: 32px; }
+    }
+
+    .pc-bar:nth-child(1) { animation-delay: 0s;    }
+    .pc-bar:nth-child(2) { animation-delay: 0.15s; }
+    .pc-bar:nth-child(3) { animation-delay: 0.3s;  }
+    .pc-bar:nth-child(4) { animation-delay: 0.45s; }
+    .pc-bar:nth-child(5) { animation-delay: 0.6s;  }
+    .pc-bar:nth-child(6) { animation-delay: 0.45s; }
+    .pc-bar:nth-child(7) { animation-delay: 0.3s;  }
+
+    .pc-label {
+      color: rgba(91, 33, 182, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pc-title {
+      color: #3B1F6E;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pc-sub {
+      color: rgba(91, 33, 182, 0.6);
+      font-size: 13px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #A78BFA;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 14px 30px;
+      border-radius: 50px;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      margin-top: 8px;
+    }
+
+    .pc-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.35);
+    }
+
+    .pc-btn svg {
+      width: 20px; height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ── Cassette decoration ── */
+    .cassette-deco {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .cassette-line {
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(135deg, #F472B6, #A78BFA);
+      opacity: 0.15;
+      animation: eq 1.2s ease-in-out infinite alternate;
+    }
+
+    @keyframes eq {
+      from { height: 3px; }
+      to   { height: 14px; }
+    }
+
+    .cassette-line:nth-child(1) { width: 3px; animation-delay: 0s; }
+    .cassette-line:nth-child(2) { width: 3px; animation-delay: 0.15s; }
+    .cassette-line:nth-child(3) { width: 3px; animation-delay: 0.3s; }
+    .cassette-line:nth-child(4) { width: 3px; animation-delay: 0.45s; }
+    .cassette-line:nth-child(5) { width: 3px; animation-delay: 0.6s; }
+    .cassette-line:nth-child(6) { width: 3px; animation-delay: 0.45s; }
+    .cassette-line:nth-child(7) { width: 3px; animation-delay: 0.3s; }
+    .cassette-line:nth-child(8) { width: 3px; animation-delay: 0.15s; }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7CPWZ8SX5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-T7CPWZ8SX5');
+  </script>
+</head>
+
+<body data-theme="light">
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="cv.html">CV/Résumé</a>
+      <a href="aizora/index.html">Blogs</a>
+      <div class="nav-dropdown">
+        <span class="dropdown-toggle">Etc ▾</span>
+        <div class="dropdown-menu">
+          <a href="gallery.html">📷 Gallery</a>
+          <a href="book-review.html">📚 Book Review</a>
+          <a href="music-playlist.html">🎵 Music Playlist</a>
+        </div>
+      </div>
+    </div>
+    <div class="theme-toggle" id="themeToggle">☀️</div>
+  </nav>
+
+  <div class="music-page">
+    <div class="music-hero">
+      <div class="cassette-deco">
+        <div class="cassette-line"></div><div class="cassette-line"></div>
+        <div class="cassette-line"></div><div class="cassette-line"></div>
+        <div class="cassette-line"></div><div class="cassette-line"></div>
+        <div class="cassette-line"></div><div class="cassette-line"></div>
+      </div>
+      <h1>Music Playlist</h1>
+      <p class="music-hero-sub">songs on repeat</p>
+    </div>
+
+    <div id="playlistContainer">
+      <div class="playlist-card">
+        <div class="playlist-card-inner">
+          <div class="pc-eq">
+            <div class="pc-bar"></div>
+            <div class="pc-bar"></div>
+            <div class="pc-bar"></div>
+            <div class="pc-bar"></div>
+            <div class="pc-bar"></div>
+            <div class="pc-bar"></div>
+            <div class="pc-bar"></div>
+          </div>
+          <div class="pc-label">YouTube Music · Playlist</div>
+          <div class="pc-title">Chaitali's Playlist</div>
+          <div class="pc-sub">This playlist features Hindi and Urdu songs</div>
+          <a class="pc-btn"
+             href="https://music.youtube.com/playlist?list=PLdLqVz9Ut-nbSHfJ2iITTkkH630ppLi4a&si=3cupVEEyKAI-a9k_"
+             target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="#FF0000"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.2 5 12 5 12 5s-4.2 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.2 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM10 15V9l5.5 3-5.5 3z"/></svg>
+            Listen on YouTube Music
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© Chaitali & AI gang</footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      document.body.dataset.theme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+      this.textContent = document.body.dataset.theme === 'light' ? '☀️' : '🌙';
+    });
+  </script>
+</body>
+
+</html>

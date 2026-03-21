@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Reviews — Chaitali</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    :root { --highlight-color: #A78BFA; }
+    .books-page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ── Hero ── */
+    .books-hero {
+      text-align: center;
+      padding: 20px 0 48px;
+      position: relative;
+    }
+
+    .books-hero::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(135deg, #A78BFA, #F472B6);
+      margin: 24px auto 0;
+      border-radius: 2px;
+    }
+
+    .books-hero h1 {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #A78BFA 0%, #F472B6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 10px;
+    }
+
+    .books-hero-sub {
+      font-size: 13px;
+      opacity: 0.45;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Shelf tabs ── */
+    .shelf-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .shelf-tab {
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid rgba(167, 139, 250, 0.2);
+      background: transparent;
+      color: var(--text-color);
+      font-family: var(--font);
+      transition: all 0.2s;
+    }
+
+    .shelf-tab:hover, .shelf-tab.active {
+      background: var(--highlight-color);
+      color: white;
+      border-color: var(--highlight-color);
+      box-shadow: 0 4px 12px rgba(167, 139, 250, 0.25);
+    }
+
+    /* ── Book card ── */
+    .book-card {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 24px;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      background: rgba(167, 139, 250, 0.03);
+      border: 1px solid rgba(167, 139, 250, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-card::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #A78BFA, #F472B6);
+      border-radius: 4px 0 0 4px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(167, 139, 250, 0.12);
+      border-color: rgba(167, 139, 250, 0.2);
+    }
+
+    .book-card:hover::before { opacity: 1; }
+
+    [data-theme="dark"] .book-card {
+      background: rgba(196, 181, 253, 0.05);
+      border-color: rgba(196, 181, 253, 0.1);
+    }
+
+    /* ── Book spine/cover ── */
+    .book-spine {
+      width: 90px;
+      height: 128px;
+      border-radius: 4px 8px 8px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      flex-shrink: 0;
+      box-shadow: -3px 3px 10px rgba(0,0,0,0.12), inset -4px 0 8px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-spine::after {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 8px;
+      background: rgba(0,0,0,0.12);
+      border-radius: 4px 0 0 4px;
+    }
+
+    /* ── Book info ── */
+    .book-info { display: flex; flex-direction: column; gap: 6px; }
+
+    .book-title {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 12px;
+      opacity: 0.5;
+      letter-spacing: 0.03em;
+    }
+
+    .book-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 4px 0;
+    }
+
+    .book-tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(167, 139, 250, 0.08);
+      color: var(--highlight-color);
+      border: 1px solid rgba(167, 139, 250, 0.15);
+      font-weight: 500;
+    }
+
+    .book-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stars { color: #f59e0b; letter-spacing: 1px; font-size: 14px; }
+    .rating-num { font-size: 12px; opacity: 0.45; }
+
+    .book-review-text {
+      font-size: 13px;
+      line-height: 1.7;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    .read-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 9px;
+      border-radius: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
+
+    .badge-read    { background: rgba(16,185,129,0.1); color: #059669; border: 1px solid rgba(16,185,129,0.2); }
+    .badge-reading { background: rgba(245,158,11,0.1); color: #d97706; border: 1px solid rgba(245,158,11,0.2); }
+    .badge-want    { background: rgba(99,102,241,0.1); color: #6366f1; border: 1px solid rgba(99,102,241,0.2); }
+
+    /* ── Empty state ── */
+    .books-empty {
+      text-align: center;
+      padding: 80px 20px;
+      opacity: 0.35;
+    }
+
+    .books-empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .books-empty p { font-size: 14px; }
+
+    @media (max-width: 520px) {
+      .book-card { grid-template-columns: 70px 1fr; gap: 16px; }
+      .book-spine { width: 70px; height: 100px; }
+    }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7CPWZ8SX5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-T7CPWZ8SX5');
+  </script>
+</head>
+
+<body data-theme="light">
+  <nav class="nav">
+    <div class="nav-links">
+      <a href="index.html#about">About</a>
+      <a href="cv.html">CV/Résumé</a>
+      <a href="aizora/index.html">Blogs</a>
+      <div class="nav-dropdown">
+        <span class="dropdown-toggle">Etc ▾</span>
+        <div class="dropdown-menu">
+          <a href="gallery.html">📷 Gallery</a>
+          <a href="book-review.html">📚 Book Review</a>
+          <a href="music-playlist.html">🎵 Music Playlist</a>
+        </div>
+      </div>
+    </div>
+    <div class="theme-toggle" id="themeToggle">☀️</div>
+  </nav>
+
+  <div class="books-page">
+    <div class="books-hero">
+      <h1>Book Reviews</h1>
+      <p class="books-hero-sub">notes from the reading chair</p>
+    </div>
+
+    <div class="shelf-tabs">
+      <button class="shelf-tab active" data-filter="all">All</button>
+      <button class="shelf-tab" data-filter="read">Read</button>
+      <button class="shelf-tab" data-filter="reading">Reading</button>
+      <button class="shelf-tab" data-filter="want">Want to Read</button>
+    </div>
+
+    <div id="booksList">
+      <!-- ── Add book entries below. Copy-paste the template. ── -->
+
+      <!--
+      <div class="book-card" data-status="read">
+        <div class="book-spine" style="background: linear-gradient(160deg,#A78BFA,#a855f7);">📖</div>
+        <div class="book-info">
+          <span class="read-badge badge-read">Read</span>
+          <div class="book-title">Book Title Here</div>
+          <div class="book-author">Author Name · Year</div>
+          <div class="book-tags">
+            <span class="book-tag">Fiction</span>
+            <span class="book-tag">Sci-Fi</span>
+          </div>
+          <div class="book-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4/5</span>
+          </div>
+          <p class="book-review-text">Your thoughts on the book — what you loved, what surprised you, what stayed with you.</p>
+        </div>
+      </div>
+      -->
+
+      <div class="book-card" data-status="reading">
+        <div class="book-spine" style="background: linear-gradient(160deg, #b45309, #f59e0b);">🕉️</div>
+        <div class="book-info">
+          <span class="read-badge badge-reading">Currently Reading</span>
+          <div class="book-title">Atma Anatma Viveka of Shankara</div>
+          <div class="book-author">Adi Shankaracharya</div>
+          <div class="book-tags">
+            <span class="book-tag">Philosophy</span>
+            <span class="book-tag">Advaita Vedanta</span>
+            <span class="book-tag">Sanskrit</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="books-empty">
+        <div class="books-empty-icon">📖</div>
+        <p>Too many books to organise — reviews will appear here once there's time to put them together properly.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>© Chaitali & AI gang</footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      document.body.dataset.theme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+      this.textContent = document.body.dataset.theme === 'light' ? '☀️' : '🌙';
+    });
+
+    // Shelf tab filter
+    document.querySelectorAll('.shelf-tab').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.shelf-tab').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        document.querySelectorAll('.book-card').forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.status === filter) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
