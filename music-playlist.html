@@ -7,15 +7,16 @@
   <title>Music Playlist — Chaitali</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
+
   <style>
     :root { --highlight-color: #A78BFA; }
+
     .music-page {
       max-width: 800px;
       margin: 0 auto;
       padding: 0 20px 60px;
     }
 
-    /* ── Hero ── */
     .music-hero {
       text-align: center;
       padding: 20px 0 48px;
@@ -63,7 +64,6 @@
       border-radius: 2px;
     }
 
-    /* ── Playlist section ── */
     .playlist-block {
       margin-bottom: 44px;
     }
@@ -93,7 +93,6 @@
       flex-shrink: 0;
     }
 
-    /* ── Track row ── */
     .track-row {
       display: grid;
       grid-template-columns: 28px 1fr auto;
@@ -138,9 +137,13 @@
       text-align: right;
     }
 
-    .track-row:hover .play-icon { opacity: 1; }
+    .track-row:hover .play-icon {
+      opacity: 1;
+    }
 
-    .track-main { min-width: 0; }
+    .track-main {
+      min-width: 0;
+    }
 
     .track-title {
       font-size: 15px;
@@ -183,11 +186,10 @@
       text-align: right;
     }
 
-    /* ── Playlist card ── */
     .playlist-card {
       border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(167, 139, 250, 0.15), 0 4px 16px rgba(0,0,0,0.06);
+      box-shadow: 0 20px 60px rgba(167, 139, 250, 0.15), 0 4px 16px rgba(0, 0, 0, 0.06);
       border: 1px solid rgba(167, 139, 250, 0.1);
       margin-bottom: 24px;
     }
@@ -204,7 +206,6 @@
       overflow: hidden;
     }
 
-    /* animated blobs */
     .playlist-card-inner::before,
     .playlist-card-inner::after {
       content: "";
@@ -214,15 +215,21 @@
       opacity: 0.55;
       pointer-events: none;
     }
+
     .playlist-card-inner::before {
-      width: 260px; height: 260px;
+      width: 260px;
+      height: 260px;
       background: #A78BFA;
-      top: -60px; left: -60px;
+      top: -60px;
+      left: -60px;
     }
+
     .playlist-card-inner::after {
-      width: 220px; height: 220px;
+      width: 220px;
+      height: 220px;
       background: #F472B6;
-      bottom: -60px; right: -40px;
+      bottom: -60px;
+      right: -40px;
     }
 
     .pc-eq {
@@ -246,13 +253,13 @@
       to   { height: 32px; }
     }
 
-    .pc-bar:nth-child(1) { animation-delay: 0s;    }
+    .pc-bar:nth-child(1) { animation-delay: 0s; }
     .pc-bar:nth-child(2) { animation-delay: 0.15s; }
-    .pc-bar:nth-child(3) { animation-delay: 0.3s;  }
+    .pc-bar:nth-child(3) { animation-delay: 0.3s; }
     .pc-bar:nth-child(4) { animation-delay: 0.45s; }
-    .pc-bar:nth-child(5) { animation-delay: 0.6s;  }
+    .pc-bar:nth-child(5) { animation-delay: 0.6s; }
     .pc-bar:nth-child(6) { animation-delay: 0.45s; }
-    .pc-bar:nth-child(7) { animation-delay: 0.3s;  }
+    .pc-bar:nth-child(7) { animation-delay: 0.3s; }
 
     .pc-label {
       color: rgba(91, 33, 182, 0.6);
@@ -293,21 +300,21 @@
       transition: all 0.25s ease;
       position: relative;
       z-index: 1;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       margin-top: 8px;
     }
 
     .pc-btn:hover {
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 14px 36px rgba(0,0,0,0.35);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
     }
 
     .pc-btn svg {
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
     }
 
-    /* ── Cassette decoration ── */
     .cassette-deco {
       display: flex;
       justify-content: center;
@@ -337,12 +344,14 @@
     .cassette-line:nth-child(7) { width: 3px; animation-delay: 0.3s; }
     .cassette-line:nth-child(8) { width: 3px; animation-delay: 0.15s; }
   </style>
+
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0S25DCWKT7"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-T7CPWZ8SX5');
+    gtag('config', 'G-0S25DCWKT7');
   </script>
 </head>
 
@@ -388,13 +397,17 @@
             <div class="pc-bar"></div>
             <div class="pc-bar"></div>
           </div>
+
           <div class="pc-label">YouTube Music · Playlist</div>
           <div class="pc-title">Chaitali's Playlist</div>
           <div class="pc-sub">This playlist features Hindi and Urdu songs</div>
+
           <a class="pc-btn"
              href="https://music.youtube.com/playlist?list=PLdLqVz9Ut-nbSHfJ2iITTkkH630ppLi4a&si=3cupVEEyKAI-a9k_"
              target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="#FF0000"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.2 5 12 5 12 5s-4.2 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.2 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM10 15V9l5.5 3-5.5 3z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#FF0000">
+              <path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.2 5 12 5 12 5s-4.2 0-7 .1c-.4.1-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.2 0 7-.2c.4-.1 1.2-.1 2-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.5C22 9.6 21.8 8 21.8 8zM10 15V9l5.5 3-5.5 3z"/>
+            </svg>
             Listen on YouTube Music
           </a>
         </div>
